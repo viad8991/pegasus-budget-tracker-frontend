@@ -32,6 +32,9 @@ build
 # IntelliJ IDEA
 .idea
 
+# Kotlin
+.kotlin/sessions
+
 # Vaadin
 target
 node_modules

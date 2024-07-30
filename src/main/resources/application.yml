@@ -1,0 +1,6 @@
+server:
+  port: 8090
+
+context:
+  initializer:
+    classes: org.pegasus.frontend.AppInitializer
