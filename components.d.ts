@@ -8,7 +8,16 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Auth: typeof import('./src/components/Auth.vue')['default']
+    AuthView: typeof import('./src/components/AuthView.vue')['default']
     BAlert: typeof import('bootstrap-vue-next')['BAlert']
+    BButton: typeof import('bootstrap-vue-next')['BButton']
+    BCard: typeof import('bootstrap-vue-next')['BCard']
+    BForm: typeof import('bootstrap-vue-next')['BForm']
+    BFormGroup: typeof import('bootstrap-vue-next')['BFormGroup']
+    BFormInput: typeof import('bootstrap-vue-next')['BFormInput']
+    BTable: typeof import('bootstrap-vue-next')['BTable']
+    CreateFamily: typeof import('./src/components/CreateFamily.vue')['default']
+    Family: typeof import('./src/components/Family.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

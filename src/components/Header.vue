@@ -5,11 +5,11 @@
     <BCollapse id="nav-collapse" is-nav>
 
       <BNavbarNav>
-        <BNavItem href="#">Link</BNavItem>
-        <BNavItem href="#">Link</BNavItem>
-        <BNavItem href="#">Link</BNavItem>
-        <BNavItem href="#">Link</BNavItem>
-        <BNavItem href="#">Link</BNavItem>
+        <BNavItem v-if="!useAuthStore.isAdmin" href="/user">Пользователи</BNavItem>
+        <BNavItem v-if="!useAuthStore.isAdmin" href="/category">Категории</BNavItem>
+        
+        <BNavItem href="/family">Семья</BNavItem>
+  
         <BNavItem href="#" disabled>Disabled</BNavItem>
       </BNavbarNav>
 
@@ -23,9 +23,9 @@
 
         <BNavItemDropdown v-if="authStore.isAuth" right>
           <template #button-content>
-            <em>{{ useAuthStore }}</em>
+            <em>{{ useAuthStore.username }}</em>
           </template>
-          <BDropdownItem href="#">Профиль</BDropdownItem>
+          <BDropdownItem href="/profile">Профиль</BDropdownItem>
           <BDropdownItem @click="handleLogout">Sign Out</BDropdownItem>
         </BNavItemDropdown>
         <BButton v-else variant="dark" @click="goToAuth">Sign In</BButton>
