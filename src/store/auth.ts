@@ -1,24 +1,25 @@
-import { defineStore } from "pinia";
-import { User } from "../api/api.js";
+import {defineStore} from "pinia";
+import {LoginUser, User} from "../api/api.js";
 
 interface IStore {
-    user: User;
-    isAuth: boolean | undefined;
+    user: User | null;
+    isAuth: boolean;
+    token: string;
 }
 
 export const useAuthStore = defineStore({
     id: "auth",
     state: (): IStore => ({
+        isAuth: JSON.parse(localStorage.getItem("isAuth") || "false") ?? false,
+        token: localStorage.getItem("token") ?? "",
         user: JSON.parse(localStorage.getItem("user") ?? "{}") ?? {},
-        isAuth: JSON.parse(localStorage.getItem("isAuth") ?? "{}") || false,
     }),
     getters: {
-        id: (state: IStore) => state.user.id ?? "",
-        username: (state: IStore) => state.user.username ?? "User",
-        email: (state: IStore) => state.user.email ?? "",
-        isAdmin: (state: IStore) => state.user.isAdmin ?? false,
-        userId: (state: IStore) => state.user.id ?? null,
-        hasFamily: (state: IStore) => state.user.hasFamily ?? false,
+        id: (state: IStore) => state.user?.id ?? "",
+        username: (state: IStore) => state.user?.username ?? "User",
+        email: (state: IStore) => state.user?.email ?? "",
+        isAdmin: (state: IStore) => state.user?.isAdmin ?? false,
+        hasFamily: (state: IStore) => state.user?.hasFamily ?? false,
     },
     actions: {
         async auth(username: string, password: string) {
@@ -30,17 +31,19 @@ export const useAuthStore = defineStore({
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({ username, password }),
+                        body: JSON.stringify({username, password}),
                     },
-                ).then((response) => {
-                    return response.json() as Promise<User>;
-                });
+                )
+                const loginUser = await response.json() as LoginUser;
 
-                if (response.id && response.token) {
-                    this.user = response;
+                if (loginUser.user && loginUser.token) {
                     this.isAuth = true;
+                    this.token = loginUser.token;
+                    this.user = loginUser.user;
+
                     localStorage.setItem("isAuth", "true");
-                    localStorage.setItem("user", JSON.stringify(response));
+                    localStorage.setItem("token", loginUser.token);
+                    localStorage.setItem("user", JSON.stringify(loginUser.user));
                 }
 
                 return response;
@@ -50,20 +53,13 @@ export const useAuthStore = defineStore({
             return null;
         },
         async logout() {
-            try {
-                this.isAuth = false;
-                localStorage.removeItem("isAuth");
-                localStorage.removeItem("user");
+            this.isAuth = false;
+            localStorage.removeItem("isAuth");
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            this.$reset();
 
-                this.$reset();
-            } catch (e) {
-                this.isAuth = false;
-                localStorage.removeItem("isAuth");
-                localStorage.removeItem("user");
-
-                this.$reset();
-            }
-            return true;
+            return this.isAuth;
         },
     },
 });

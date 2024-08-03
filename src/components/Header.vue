@@ -5,11 +5,11 @@
     <BCollapse id="nav-collapse" is-nav>
 
       <BNavbarNav>
-        <BNavItem v-if="!useAuthStore.isAdmin" href="/user">Пользователи</BNavItem>
-        <BNavItem v-if="!useAuthStore.isAdmin" href="/category">Категории</BNavItem>
-        
+        <BNavItem v-if="isAdmin" href="/user">Пользователи</BNavItem>
+        <BNavItem v-if="isAdmin" href="/category">Категории</BNavItem>
+
         <BNavItem href="/family">Семья</BNavItem>
-  
+
         <BNavItem href="#" disabled>Disabled</BNavItem>
       </BNavbarNav>
 
@@ -21,9 +21,9 @@
           <BDropdownItem href="#">FA</BDropdownItem>
         </BNavItemDropdown>
 
-        <BNavItemDropdown v-if="authStore.isAuth" right>
+        <BNavItemDropdown v-if="isAuth" right>
           <template #button-content>
-            <em>{{ useAuthStore.username }}</em>
+            <em>{{ username }}</em>
           </template>
           <BDropdownItem href="/profile">Профиль</BDropdownItem>
           <BDropdownItem @click="handleLogout">Sign Out</BDropdownItem>
@@ -35,28 +35,25 @@
   </BNavbar>
 </template>
 
-
 <script lang="ts" setup>
+import {computed} from 'vue';
 import {useRouter} from 'vue-router';
-import {
-  BNavbar,
-  BNavbarBrand,
-  BNavbarToggle,
-  BCollapse,
-  BNavbarNav,
-  BNavItem,
-  BNavItemDropdown,
-  BDropdownItem,
-  BButton
-} from 'bootstrap-vue-next';
 import {useAuthStore} from "../store/auth";
 
 const router = useRouter();
 const authStore = useAuthStore();
 
-const handleLogout = () => {
-  authStore.logout();
-  router.push('/');
+const isAuth = computed(() => authStore.isAuth);
+const isAdmin = computed(() => {
+  console.log("user", authStore.user);
+  console.log("authStore.isAdmin", authStore.isAdmin);
+  return authStore.isAdmin
+});
+const username = computed(() => authStore.username);
+
+const handleLogout = async () => {
+  await authStore.logout();
+  await router.push('/');
 };
 
 const goToAuth = () => {

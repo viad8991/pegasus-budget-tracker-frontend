@@ -2,46 +2,57 @@
   <div class="container">
     <h1>Список пользователей</h1>
     <BTable
-      :fields="fields"
-      :items="items"
-      @row-clicked="onRowClicked"
-      mode="single"
-      >
-      <template #cell(name)="data">
-        {{ data.value.first }} {{ data.value.last }}
-      </template>
+        :fields="fields"
+        :items="items"
+        @row-clicked="onRowClicked"
+        mode="single"
+    >
+      <!--      <template #cell(name)="data">-->
+      <!--        {{ data.value.first }} {{ data.value.last }}-->
+      <!--      </template>-->
     </BTable>
   </div>
 </template>
 
 <script lang="ts">
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  
-  export default {
-    setup() {
-      const router = useRouter();
+import {onMounted, ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {User} from "../api/api";
+import UserService from "../services/UserService";
 
-      const fields = ref([
-        { key: 'name', label: 'Full Name' }, 
-        'age', 
-        'sex'
-      ]);
-      
-      const items = ref([
-          { id: 1, name: { first: 'Jane', last: 'Doe' }, sex: 'Female', age: 36 },
-          { id: 2, name: { first: 'Rubin', last: 'Kincade' }, sex: 'Male', age: 73 },
-          { id: 3, name: { first: 'Shirley', last: 'Partridge' }, sex: 'Female', age: 62 }
-      ]);
-      const onRowClicked = (row) => {
-          console.log('1 Selected row:', row);
-          router.push({ name: 'Профиль', params: { id: row.id }})
-          // this.$router.push({ name: 'ProfileView', :  });
-        };
+export default {
+  setup() {
+    const router = useRouter();
 
-      return {fields, items, onRowClicked}
-    }
-  };
+    const fields = ref([
+      {key: 'username', label: 'Имя пользователя'},
+      {key: 'email', label: 'E-Mail'},
+      {key: 'verified', label: 'Верифицирован'},
+      {key: 'hasFamily', label: 'Семья'},
+      {key: 'isActive', label: 'Активен'},
+    ]);
+
+    const items = ref<User[]>([]);
+
+    const fetchUsers = async () => {
+      const users = await UserService.all();
+      if (users) {
+        items.value = users;
+      } else {
+        console.error('Не удалось загрузить список пользователей');
+      }
+    };
+
+    onMounted(fetchUsers);
+
+    const onRowClicked = (row: User) => {
+      console.log('1 Selected row:', row);
+      router.push({name: 'Профиль', params: {id: row.id}})
+    };
+
+    return {fields, items, onRowClicked}
+  }
+};
 </script>
 
 <style scoped>

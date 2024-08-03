@@ -10,26 +10,23 @@
 </template>
 
 <script lang="ts">
-  export default {
-    data() {
-      return {
-        fields: [
-          // A column that needs custom formatting
-          { key: 'name', label: 'Full Name' },
-          // A regular column
-          'age',
-          // A regular column
-          'sex'
-        ],
-        items: [
-          { name: { first: 'John', last: 'Doe' }, sex: 'Male', age: 42 },
-          { name: { first: 'Jane', last: 'Doe' }, sex: 'Female', age: 36 },
-          { name: { first: 'Rubin', last: 'Kincade' }, sex: 'Male', age: 73 },
-          { name: { first: 'Shirley', last: 'Partridge' }, sex: 'Female', age: 62 }
-        ]
-      }
+export default {
+  data() {
+    return {
+      fields: [
+        {key: 'name', label: 'Full Name'},
+        'age',
+        'sex'
+      ],
+      items: [
+        {name: {first: 'John', last: 'Doe'}, sex: 'Male', age: 42},
+        {name: {first: 'Jane', last: 'Doe'}, sex: 'Female', age: 36},
+        {name: {first: 'Rubin', last: 'Kincade'}, sex: 'Male', age: 73},
+        {name: {first: 'Shirley', last: 'Partridge'}, sex: 'Female', age: 62}
+      ]
     }
   }
+}
 </script>
 
 <style scoped>

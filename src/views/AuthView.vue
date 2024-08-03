@@ -9,7 +9,7 @@
       <BFormInput v-model="password" id="password" type="password" placeholder="Password"/>
     </BFormFloatingLabel>
 
-    <BButton type="submit" variant="dark" class="w-100 my-3">Войти</BButton>
+    <BButton @click="handleLogin" type="submit" variant="dark" class="w-100 my-3">Войти</BButton>
 
   </BForm>
 

@@ -1,6 +1,10 @@
+export interface LoginUser {
+    token: string;
+    user: User;
+}
+
 export interface User {
     id?: string;
-    token?: string;
     username?: string;
     email?: string;
     isActive?: boolean;
