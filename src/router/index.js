@@ -15,7 +15,7 @@ const router = createRouter({
         {path: "/user", name: "Пользователи", component: UserList},
         {path: "/category", name: "Категории", component: CategoryView},
         {path: "/family", name: "Семья", component: FamilyView},
-        {path: "/profile/:id?", name: "Профиль", component: ProfileView,},
+        {path: "/profile/:id?", name: "Профиль", component: ProfileView, props: true},
         {path: "/auth", name: "Авторизация", component: AuthView},
     ],
 });

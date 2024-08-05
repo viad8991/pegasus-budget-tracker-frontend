@@ -7,6 +7,7 @@
       :items="items"
       @row-clicked="onRowClicked"
       mode="single"
+      :sort-by="[{key:'update', order: 'desc'}]"
   >
     <template #cell(update)="date">
       {{ formatDate(date.value) }}

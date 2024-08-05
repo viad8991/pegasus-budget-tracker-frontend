@@ -27,17 +27,16 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref, computed} from "vue";
+import {onMounted, ref} from "vue";
 import {useRoute} from 'vue-router'
 import {useAuthStore} from "../store/auth";
 import UserService from "../services/UserService";
 
-export default defineComponent({
-  props: {
-    userId: {type: String, required: false},
-  },
-  setup(props) {
-    const userId = ref<string | null>(null);
+export default {
+  setup() {
+    const authStore = useAuthStore();
+
+    const userId = ref<string>(authStore.id);
     const form = ref({
       name: '',
       email: '',
@@ -73,27 +72,19 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      // Попытка получить ID пользователя из URL параметров или из хранилища
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlUserId = urlParams.get('userId');
+      const route = useRoute()
+      const routeUserId = route.params.id
 
-      if (urlUserId) {
-        userId.value = urlUserId;
-      } else {
-        const authStore = useAuthStore();
-        userId.value = authStore.id;
+      if (routeUserId) {
+        userId.value = routeUserId;
       }
 
-      if (userId.value !== null) {
-        fetchUserData(userId.value);
-      } else {
-        console.error('Не удалось определить ID пользователя');
-      }
+      fetchUserData(userId.value);
     });
 
     return {userId, form, onSubmit};
   }
-});
+};
 </script>
 
 <style scoped>
