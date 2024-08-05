@@ -10,18 +10,16 @@
   >
   </BTable>
 
-  <BButton
-      @click="openCreateModal"
-      v-b-modal="'category-modal'"
-      variant="dark" class="mt-3"
-  >
+  <BButton @click="openCreateModal" variant="dark" class="mt-3">
     Добавить категорию
   </BButton>
 
   <BModal
       ref="category-modal-ref"
       id="category-modal-id"
-      :title="isEditing ? 'Редактировать категорию' : 'Создать категорию'"
+      ok-title="Сохранить"
+      cancel-title="Закрыть"
+      :title="form.id ? 'Редактировать \'' + form.name + '\'' : 'Создать категорию'"
       @ok="onSave"
   >
     <BForm>
@@ -46,67 +44,64 @@
 </template>
 
 <script lang="ts">
-import {onMounted, ref} from "vue";
 import {Category} from "../api/api";
 import CategoryService from "../services/CategoryService";
-import {useModalController, vBModal} from "bootstrap-vue-next";
+import {BButton} from "bootstrap-vue-next";
 
 export default {
-  setup() {
-    const fields = ref([
-      {key: 'id', label: 'ID'},
-      {key: 'name', label: 'Название'},
-      {key: 'description', label: 'Описание'},
-      {key: 'created', label: 'Создание'},
-      {key: 'update', label: 'Обновление'},
-    ]);
-
-    const form = ref(
-        {id: null, name: '', description: null}
-    );
-    const isEditing = ref(false);
-
-    const items = ref<Category[]>([]);
-    const {show} = useModalController()
-
-    const fetchCategories = async () => {
-      const categories = await CategoryService.all();
-      if (categories) {
-        items.value = categories;
+  components: {BButton},
+  data() {
+    return {
+      fields: [
+        {key: 'id', label: 'ID', type: "text"},
+        {key: 'name', label: 'Название', type: "text"},
+        {key: 'description', label: 'Описание', type: "text"},
+        {key: 'created', label: 'Создание', type: "datetime"},
+        {key: 'update', label: 'Обновление', type: "datetime"},
+      ],
+      items: [] as Category[],
+      form: {id: null, name: "", description: null},
+    }
+  },
+  methods: {
+    async fetchCategories() {
+      CategoryService.all()
+          .then(value => {
+            this.items = value || [];
+          })
+          .catch((reason) => {
+            console.error('Не удалось загрузить список категорий', reason);
+          })
+          .finally(() => {
+            if (this.items.length == 0) {
+              console.log("use stab")
+              this.items = [
+                {id: "e2f7f98e-ac7d-4cce-8668-977664762195", name: "Супермаркеты", description: "null"},
+                {id: "bfa59f21-b7af-4db1-9287-b5974e3e6481", name: "Кафе и рестораны", description: "null"}
+              ]
+            }
+          });
+    },
+    openCreateModal() {
+      this.form = {id: null, name: '', description: null};
+      (this.$refs["category-modal-ref"] as any).show()
+    },
+    onRowClicked(row: Category) {
+      this.form = {...row};
+      (this.$refs["category-modal-ref"] as any).show()
+    },
+    async onSave() {
+      if (this.form.id) {
+        await CategoryService.update(this.form);
       } else {
-        console.error('Не удалось загрузить список категорий');
-        items.value = [
-          {id: "e2f7f98e-ac7d-4cce-8668-977664762195", name: "Супермаркеты", description: "null"},
-          {id: "bfa59f21-b7af-4db1-9287-b5974e3e6481", name: "Кафе и рестораны", description: "null"}
-        ]
+        await CategoryService.create(this.form);
       }
-    };
-
-    onMounted(fetchCategories);
-
-    const onRowClicked = (row: Category) => {
-      console.log('Selected row:', row);
-      form.value = {...row};
-      isEditing.value = true;
-
-    };
-
-    const openCreateModal = () => {
-      form.value = {id: null, name: '', description: null};
-      isEditing.value = false;
-    };
-
-    const onSave = async () => {
-      if (isEditing.value) {
-        await CategoryService.update(form.value);
-      } else {
-        await CategoryService.create(form.value);
-      }
-      await fetchCategories();
-    };
-
-    return {fields, items, form, isEditing, onRowClicked, openCreateModal, onSave}
-  }
+      await this.fetchCategories();
+    }
+  },
+  mounted() {
+    this.fetchCategories()
+  },
 };
 </script>
 

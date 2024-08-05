@@ -14,9 +14,9 @@ export interface User {
 }
 
 export interface Category {
-    id: string;
+    id: string | null;
     name: string;
-    description?: string;
+    description: string | null;
     // created: string;
     // update: string;
 }
