@@ -4,11 +4,17 @@ export interface LoginUser {
 }
 
 export interface User {
-    id?: string;
-    username?: string;
+    id: string;
+    username: string;
     email?: string;
-    isActive?: boolean;
-    verified?: boolean;
-    isAdmin?: boolean;
-    hasFamily?: boolean;
+    isActive: boolean;
+    verified: boolean;
+    isAdmin: boolean;
+    hasFamily: boolean;
+}
+
+export interface Category {
+    id: string;
+    name: string;
+    description?: string;
 }

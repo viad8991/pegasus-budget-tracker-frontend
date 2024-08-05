@@ -1,52 +1,27 @@
 import {User} from "../api/api";
 import {useAuthStore} from "../store/auth";
-
-interface Foo {
-    data: User[]
-}
+import axios from "axios";
 
 class UserService {
-    private _serverBaseUrl: string = "http://localhost:8080/api/v1/";
+    private _serverBaseUrl: string = "http://localhost:8080/api/v1/user";
 
     async all() {
-        return fetch(
-            this._serverBaseUrl + "user",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorize": useAuthStore().token
-                },
-            })
-            .then((response) => {
-                console.log(useAuthStore().token)
+        return axios.get(this._serverBaseUrl + "user", {headers: {"Authorization": useAuthStore().token}})
+            .then(response => {
                 console.log(response)
-
-                if (response.status === 200) {
-                    console.log(JSON.parse(JSON.stringify(response)));
-
-                    return null
-                } else {
-                    console.log("status is not 200", response)
-                    return null;
-                }
-            })
-            .catch(reason => {
+                return response.data as User[]
+            }).catch(reason => {
                 console.log(reason)
-                return null
-            });
+                return [];
+            })
     }
 
     async find(id: string) {
-        return fetch(
-            this._serverBaseUrl + "user/" + id,
-            {
-                method: "GET",
-                headers: {"Content-Type": "application/json",},
-            })
+        return axios.get(
+            this._serverBaseUrl + "/" + id, {headers: {"Authorization": useAuthStore().token}})
             .then(response => {
                 if (response.status === 200) {
-                    return response.json() as User
+                    return response.data as User
                 } else {
                     console.log("status is not 200", response)
                     return null
