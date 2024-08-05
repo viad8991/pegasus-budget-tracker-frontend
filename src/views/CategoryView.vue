@@ -57,6 +57,8 @@ export default {
       {key: 'id', label: 'ID'},
       {key: 'name', label: 'Название'},
       {key: 'description', label: 'Описание'},
+      {key: 'created', label: 'Создание'},
+      {key: 'update', label: 'Обновление'},
     ]);
 
     const form = ref(
@@ -73,6 +75,10 @@ export default {
         items.value = categories;
       } else {
         console.error('Не удалось загрузить список категорий');
+        items.value = [
+          {id: "e2f7f98e-ac7d-4cce-8668-977664762195", name: "Супермаркеты", description: "null"},
+          {id: "bfa59f21-b7af-4db1-9287-b5974e3e6481", name: "Кафе и рестораны", description: "null"}
+        ]
       }
     };
 

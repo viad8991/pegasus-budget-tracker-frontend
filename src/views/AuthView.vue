@@ -19,7 +19,6 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue';
-import {BForm, BFormFloatingLabel, BFormInput, BButton} from 'bootstrap-vue-next';
 import {useRouter} from 'vue-router';
 import {useAuthStore} from "../store/auth";
 

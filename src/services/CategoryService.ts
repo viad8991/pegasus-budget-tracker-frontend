@@ -12,7 +12,7 @@ class CategoryService {
                 return response.data as Category[]
             }).catch(reason => {
                 console.log(reason)
-                return [];
+                return null;
             })
     }
 
@@ -20,10 +20,10 @@ class CategoryService {
         return axios.post(this._serverBaseUrl + "/" + category.id, category, {headers: {"Authorization": useAuthStore().token}})
             .then(response => {
                 console.log(response)
-                return response.data as Category[]
+                return response.data as Category
             }).catch(reason => {
                 console.log(reason)
-                return [];
+                return null;
             })
     }
 
@@ -33,10 +33,10 @@ class CategoryService {
         return axios.post(this._serverBaseUrl, category, {headers: {"Authorization": useAuthStore().token}})
             .then(response => {
                 console.log(response)
-                return response.data as Category[]
+                return response.data as Category
             }).catch(reason => {
                 console.log(reason)
-                return [];
+                return null;
             })
     }
 

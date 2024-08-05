@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import {LoginUser, User} from "../api/api.js";
+import axios from "axios";
 
 interface IStore {
     user: User | null;
@@ -24,17 +25,11 @@ export const useAuthStore = defineStore({
     actions: {
         async auth(username: string, password: string) {
             try {
-                const response = await fetch(
+                const response = await axios.post(
                     "http://localhost:8080/api/v1/user/login",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({username, password}),
-                    },
+                    {username, password}
                 )
-                const loginUser = await response.json() as LoginUser;
+                const loginUser = await response.data as LoginUser;
 
                 if (loginUser.user && loginUser.token) {
                     this.isAuth = true;
