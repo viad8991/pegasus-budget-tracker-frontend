@@ -6,7 +6,7 @@ class UserService {
     private _serverBaseUrl: string = "http://localhost:8080/api/v1/user";
 
     async all() {
-        return axios.get(this._serverBaseUrl + "user", {headers: {"Authorization": useAuthStore().token}})
+        return axios.get(this._serverBaseUrl, {headers: {"Authorization": useAuthStore().token}})
             .then(response => {
                 console.log(response)
                 return response.data as User[]

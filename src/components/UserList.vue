@@ -7,9 +7,6 @@
         @row-clicked="onRowClicked"
         mode="single"
     >
-      <!--      <template #cell(name)="data">-->
-      <!--        {{ data.value.first }} {{ data.value.last }}-->
-      <!--      </template>-->
     </BTable>
   </div>
 </template>

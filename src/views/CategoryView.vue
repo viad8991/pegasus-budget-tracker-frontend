@@ -8,6 +8,13 @@
       @row-clicked="onRowClicked"
       mode="single"
   >
+    <template #cell(update)="date">
+      {{ formatDate(date.value) }}
+    </template>
+
+    <template #cell(created)="data">
+      {{ formatDate(data.value) }}
+    </template>
   </BTable>
 
   <BButton @click="openCreateModal" variant="dark" class="mt-3">
@@ -47,6 +54,7 @@
 import {Category} from "../api/api";
 import CategoryService from "../services/CategoryService";
 import {BButton} from "bootstrap-vue-next";
+import dayjs from 'dayjs';
 
 export default {
   components: {BButton},
@@ -56,8 +64,8 @@ export default {
         {key: 'id', label: 'ID', type: "text"},
         {key: 'name', label: 'Название', type: "text"},
         {key: 'description', label: 'Описание', type: "text"},
-        {key: 'created', label: 'Создание', type: "datetime"},
         {key: 'update', label: 'Обновление', type: "datetime"},
+        {key: 'created', label: 'Создание', type: "datetime"},
       ],
       items: [] as Category[],
       form: {id: null, name: "", description: null},
@@ -97,6 +105,9 @@ export default {
         await CategoryService.create(this.form);
       }
       await this.fetchCategories();
+    },
+    formatDate(isoString: string) {
+      return dayjs(isoString).format('YYYY.MM.DD HH:mm:ss');
     }
   },
   mounted() {
