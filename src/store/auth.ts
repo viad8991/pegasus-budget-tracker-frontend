@@ -41,14 +41,7 @@ export const useAuthStore = defineStore({
         async auth(username: string, password: string) {
             try {
                 // стор не должен ничего знать про бизнес логику
-                const response = await axios.post(
-                    "http://localhost:8080/api/v1/user/login",
-                    {username, password}
-                )
-
-                // type assertion грех (as Something так делать нельзя)
-                const loginUser = await response.data as LoginUser;
-
+                const loginUser = await AuthService.login(username, password);
 
                 // обычно мы полагаем, если что в ответе пришло (статус 200), то с данными все хорошо и они все пришли
                 // поэтому проверять отдельно смысла нет

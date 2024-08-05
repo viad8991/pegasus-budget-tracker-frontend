@@ -8,11 +8,5 @@
 </template>
 
 <script lang="ts">
-//  TODO
-// структура для компонентов примерно такая
-// CreateFamily
-//    CreateFamily.vue
-//    CreateFamily.scss // иногда выносят стили в отдельный файл
-//    CreateFamily.test.vue // для тестов
-// показал примеры со стилями и тестами, чтобы показать почему нужна отдельная папка под компонент
+
 </script>

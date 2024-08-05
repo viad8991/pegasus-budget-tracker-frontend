@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts">
-  import Family from '../components/Family.vue';
-  import CreateFamily  from '../components/CreateFamily.vue';
+  import Family from '../components/Family/Family.vue';
+  import CreateFamily  from '../components/Family/CreateFamily.vue';
   
   import { defineComponent } from 'vue';
   import { useAuthStore } from "../store/auth";
