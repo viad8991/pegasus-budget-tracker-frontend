@@ -4,6 +4,7 @@
     <BNavbarToggle target="nav-collapse"/>
     <BCollapse id="nav-collapse" is-nav>
 
+<!--   TODO можно вынести в отдельный файл со статическими данными и использовать v-for. Схема примерно такая {name, isAdmin, link, isDisabled}   -->
       <BNavbarNav>
         <BNavItem v-if="isAdmin" href="/user">Пользователи</BNavItem>
         <BNavItem v-if="isAdmin" href="/category">Категории</BNavItem>
@@ -14,6 +15,7 @@
       </BNavbarNav>
 
       <BNavbarNav class="ms-auto mb-2 mb-lg-0">
+<!--    TODO тоже самое. если статика, то в отдельный файл. Иначе получаем с бэка и v-for    -->
         <BNavItemDropdown text="Lang" right>
           <BDropdownItem href="#">EN</BDropdownItem>
           <BDropdownItem href="#">ES</BDropdownItem>
@@ -43,6 +45,8 @@ import {useAuthStore} from "../store/auth";
 const router = useRouter();
 const authStore = useAuthStore();
 
+// TODO
+// В сторе есть getters, они отвечают за реактивность и можно это получать оттуда (из getter-a)
 const isAuth = computed(() => authStore.isAuth);
 const isAdmin = computed(() => {
   console.log("user", authStore.user);

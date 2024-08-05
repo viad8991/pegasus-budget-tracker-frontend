@@ -8,6 +8,9 @@ import ProfileView from "../views/ProfileView.vue";
 
 import UserList from "../components/UserList.vue";
 
+// TODO
+// У тебя часть файлов .js, часть .ts, что есть плохо
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [

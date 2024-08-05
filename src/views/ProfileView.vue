@@ -1,6 +1,7 @@
 <template>
   <h1>Личный кабинет</h1>
 
+<!-- TODO каждая форма это отдельный компонент -->
   <BForm @submit="onSubmit">
 
     <p>ID: {{ userId }}</p>
@@ -31,7 +32,8 @@ import {onMounted, ref} from "vue";
 import {useRoute} from 'vue-router'
 import {useAuthStore} from "../store/auth";
 import UserService from "../services/UserService";
-
+// TODO
+// много где меняется стиль composition/option
 export default {
   setup() {
     const authStore = useAuthStore();
@@ -63,6 +65,7 @@ export default {
     const onSubmit = async (event: Event) => {
       event.preventDefault();
       try {
+        // вместо alert, лучше сделай toast
         alert(JSON.stringify(form.value));
         await UserService.update(userId.value, form.value);
         alert('Данные успешно обновлены!');

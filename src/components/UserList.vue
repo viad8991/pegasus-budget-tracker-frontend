@@ -21,6 +21,8 @@ export default {
   setup() {
     const router = useRouter();
 
+    // TODO
+    // статика в отдельный файл рядом с компонентом
     const fields = ref([
       {key: 'username', label: 'Имя пользователя'},
       {key: 'email', label: 'E-Mail'},
@@ -29,6 +31,8 @@ export default {
       {key: 'isActive', label: 'Активен'},
     ]);
 
+    // TODO
+    // данные для отдельного стора
     const items = ref<User[]>([]);
 
     const fetchUsers = async () => {

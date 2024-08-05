@@ -2,10 +2,17 @@ import {User} from "../api/api";
 import {useAuthStore} from "../store/auth";
 import axios from "axios";
 
+// TODO
+// есть UserService, CategoryService, а вот AuthService-a нет, хотя там точно такие же запросы, как и тут)
+
 class UserService {
     private _serverBaseUrl: string = "http://localhost:8080/api/v1/user";
 
     async all() {
+        // TODO
+        // Постоянно писать это надоесть и много кода образуется в service-ах
+        // Нужно вынести в настройки http-client-a в отдельный файл
+        // Напиши, скину пример
         return axios.get(this._serverBaseUrl, {headers: {"Authorization": useAuthStore().token}})
             .then(response => {
                 console.log(response)

@@ -61,6 +61,8 @@ export default {
   components: {BButton},
   data() {
     return {
+      // TODO
+      // статика в отдельный файл
       fields: [
         {key: 'id', label: 'ID', type: "text"},
         {key: 'name', label: 'Название', type: "text"},
@@ -92,6 +94,8 @@ export default {
           });
     },
     openCreateModal() {
+      // TODO
+      // данные для формы в отдельный стор, форму в отдельный компонент
       this.form = {id: null, name: '', description: null};
       (this.$refs["category-modal-ref"] as any).show()
     },

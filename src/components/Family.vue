@@ -10,6 +10,10 @@
 </template>
 
 <script lang="ts">
+// TODO
+// не стоит смешивать стили написания
+// есть CompositionAPI, а есть OptionAPI, у тебя в разных файлах по разному
+// современный стандарт CompositionAPI, почитай
 export default {
   data() {
     return {
