@@ -71,27 +71,12 @@ export default {
         {key: 'created', label: 'Создание', type: "datetime"},
       ],
       items: [] as Category[],
-      form: {id: null, name: "", description: null},
+      form: {id: null, name: "", description: null} as Category,
     }
   },
   methods: {
     async fetchCategories() {
-      CategoryService.all()
-          .then(value => {
-            this.items = value || [];
-          })
-          .catch((reason) => {
-            console.error('Не удалось загрузить список категорий', reason);
-          })
-          .finally(() => {
-            if (this.items.length == 0) {
-              console.log("use stab")
-              this.items = [
-                {id: "e2f7f98e-ac7d-4cce-8668-977664762195", name: "Супермаркеты", description: "null"},
-                {id: "bfa59f21-b7af-4db1-9287-b5974e3e6481", name: "Кафе и рестораны", description: "null"}
-              ]
-            }
-          });
+      this.items = await CategoryService.all()
     },
     openCreateModal() {
       // TODO

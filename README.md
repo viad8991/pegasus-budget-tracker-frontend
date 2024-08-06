@@ -46,6 +46,7 @@ npm run build
     1. UserStore - обычно за данные пользователя отвечает пользовательский стор UserStore
     2. AuthStore - за данные по авторизации AuthStore, там хранят username, password из формы
 
+
 3. Структура для типов:
 ```
 // типы выносятся в отдельный файл, чтобы не засорять данные, в котором итак много логики будет помимо типов
@@ -58,3 +59,7 @@ npm run build
 │   ├── types
 │   │   └── authStoreTypes.ts
 ```
+
+4. Библиотека для нотификаций: toast
+
+https://www.npmjs.com/package/react-toastify

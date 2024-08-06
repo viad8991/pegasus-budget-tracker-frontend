@@ -4,7 +4,7 @@
     <BNavbarToggle target="nav-collapse"/>
     <BCollapse id="nav-collapse" is-nav>
 
-<!--   TODO можно вынести в отдельный файл со статическими данными и использовать v-for. Схема примерно такая {name, isAdmin, link, isDisabled}   -->
+      <!--   TODO можно вынести в отдельный файл со статическими данными и использовать v-for. Схема примерно такая {name, isAdmin, link, isDisabled}   -->
       <BNavbarNav>
         <BNavItem v-if="isAdmin" href="/user">Пользователи</BNavItem>
         <BNavItem v-if="isAdmin" href="/category">Категории</BNavItem>
@@ -15,7 +15,7 @@
       </BNavbarNav>
 
       <BNavbarNav class="ms-auto mb-2 mb-lg-0">
-<!--    TODO тоже самое. если статика, то в отдельный файл. Иначе получаем с бэка и v-for    -->
+        <!--    TODO тоже самое. если статика, то в отдельный файл. Иначе получаем с бэка и v-for    -->
         <BNavItemDropdown text="Lang" right>
           <BDropdownItem href="#">EN</BDropdownItem>
           <BDropdownItem href="#">ES</BDropdownItem>
@@ -37,31 +37,38 @@
   </BNavbar>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import {computed} from 'vue';
 import {useRouter} from 'vue-router';
-import {useAuthStore} from "../store/auth";
+import {useAuthStore} from "../auth/store/authStore";
 
 const router = useRouter();
 const authStore = useAuthStore();
 
 // TODO
 // В сторе есть getters, они отвечают за реактивность и можно это получать оттуда (из getter-a)
-const isAuth = computed(() => authStore.isAuth);
+const isAuth = computed(() => authStore.token);
 const isAdmin = computed(() => {
-  console.log("user", authStore.user);
-  console.log("authStore.isAdmin", authStore.isAdmin);
   return authStore.isAdmin
 });
-const username = computed(() => authStore.username);
 
-const handleLogout = async () => {
-  await authStore.logout();
-  await router.push('/');
-};
-
-const goToAuth = () => {
-  router.push('/auth');
+export default {
+  name: "Header",
+  // getters: {},
+  data() {
+      return {
+        username:  authStore.username
+      }
+  },
+  methods: {
+    async handleLogout() {
+      await authStore.logout();
+      await router.push('/');
+    },
+    async goToAuth() {
+      await router.push('/auth');
+    }
+  }
 };
 </script>
 

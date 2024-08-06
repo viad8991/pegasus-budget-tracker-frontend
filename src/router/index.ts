@@ -9,7 +9,7 @@ import ProfileView from "../views/ProfileView.vue";
 import UserList from "../components/UserList.vue";
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory(),
     routes: [
         { path: "/", name: "Главная", component: HomeView },
         { path: "/user", name: "Пользователи", component: UserList },

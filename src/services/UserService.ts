@@ -1,9 +1,6 @@
 import {User} from "../api/api";
-import {useAuthStore} from "../store/auth";
+import {useAuthStore} from "../auth/store/authStore";
 import axios from "axios";
-
-// TODO
-// есть UserService, CategoryService, а вот AuthService-a нет, хотя там точно такие же запросы, как и тут)
 
 class UserService {
     private _serverBaseUrl: string = "http://localhost:8080/api/v1/user";
@@ -13,10 +10,10 @@ class UserService {
         // Постоянно писать это надоесть и много кода образуется в service-ах
         // Нужно вынести в настройки http-client-a в отдельный файл
         // Напиши, скину пример
-        return axios.get(this._serverBaseUrl, {headers: {"Authorization": useAuthStore().token}})
+        return axios.get<User[]>(this._serverBaseUrl, {headers: {"Authorization": useAuthStore().token}})
             .then(response => {
                 console.log(response)
-                return response.data as User[]
+                return response.data
             }).catch(reason => {
                 console.log(reason)
                 return [];
@@ -24,11 +21,11 @@ class UserService {
     }
 
     async find(id: string) {
-        return axios.get(
+        return axios.get<User>(
             this._serverBaseUrl + "/" + id, {headers: {"Authorization": useAuthStore().token}})
             .then(response => {
                 if (response.status === 200) {
-                    return response.data as User
+                    return response.data
                 } else {
                     console.log("status is not 200", response)
                     return null
@@ -41,6 +38,7 @@ class UserService {
     }
 
     async update(id: string | null, value: any) {
+        // TODO not impl on server
         console.log(JSON.stringify({id, value}))
     }
 

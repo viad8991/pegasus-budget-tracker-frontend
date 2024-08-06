@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
-import {useAuthStore} from "../store/auth";
+import {useAuthStore} from "../auth/store/authStore";
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -39,14 +39,16 @@ const handleLogin = async () => {
   // Тут try catch, внутри authStore.auth try catch это bad practise
   // Позови как-нибудь, я расскажу как правильно организовать структуру обработки ошибок
   try {
-    const user = authStore.auth(username.value, password.value)
+    const user = await authStore.auth(username.value, password.value)
 
-    if (!user) {
+    if (user) {
+      await router.push('/');
+    } else {
       console.log("Ошибка авторизации")
       errorMessage.value = "Ошибка авторизации";
     }
 
-    await router.push('/');
+
   } catch (error) {
     console.error('Ошибка:', error);
     errorMessage.value = "Ошибка авторизации" ;
