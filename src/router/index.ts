@@ -6,7 +6,7 @@ import FamilyView from "../views/FamilyView.vue";
 import AuthView from "../views/AuthView.vue";
 import ProfileView from "../views/ProfileView.vue";
 
-import UserList from "../components/UserList.vue";
+import UserList from "../components/UserList/UserList.vue";
 
 const router = createRouter({
     history: createWebHistory(),

@@ -1,63 +1,56 @@
-<script lang="ts">
-import {ref} from 'vue'
-import {useAuthStore} from "../../auth/store/authStore";
+<script lang="ts" setup>
+import {onMounted, ref} from 'vue'
+import {useAuthStore} from "../../store/auth/store/authStore";
 import {useRoute, useRouter} from "vue-router";
 import UserService from "../../services/UserService";
+import {storeToRefs} from "pinia";
 
-export default {
-  name: "Profile",
-  data() {
-    return {
-      userId: ref<string | null>(useAuthStore().id),
-      form: ref({
-        name: '',
-        email: '',
-        hasFamily: false,
-        verified: false,
-      })
-    }
-  },
-  mounted() {
-    const router = useRouter()
-    const route = useRoute()
-    const routeUserId = route.params.id[0]
+const authStore = useAuthStore()
+const {id} = storeToRefs(authStore);
 
-    if (routeUserId) {
-      this.userId = routeUserId;
-    }
+const userId = ref(id);
+const form = ref({
+  name: '',
+  email: '',
+  hasFamily: false,
+  verified: false,
+})
 
-    if (this.userId) {
-      this.fetchUserData(this.userId);
-    } else {
-      router.push({path: "/auth"})
-    }
-  },
-  methods: {
-    async fetchUserData(uid: string) {
-      try {
-        const user = await UserService.find(uid);
-        if (user) {
-          this.userId = user.id || "";
-          this.form.name = user.username || "";
-          this.form.email = user.email || "";
-          this.form.hasFamily = user.hasFamily || false;
-          this.form.verified = user.verified || false;
-        }
-      } catch (error) {
-        console.error('Ошибка при загрузке данных пользователя:', error);
-      }
-    },
-    async onSubmit(event: Event) {
-      event.preventDefault();
-      try {
-        await UserService.update(this.userId, this.form);
-        alert('Данные успешно обновлены!');
-      } catch (error) {
-        console.error('Ошибка при обновлении данных:', error);
-      }
-    }
+onMounted(() => {
+  const route = useRoute()
+  const routeUserId = route.params.id[0]
+
+  if (routeUserId) {
+    userId.value = routeUserId;
   }
-};
+
+  if (userId.value) {
+    fetchUserData(userId.value);
+  } else {
+    const router = useRouter()
+    router.push({path: "/auth"})
+  }
+});
+
+async function fetchUserData(uid: string) {
+  try {
+    const user = await UserService.find(uid);
+    if (user) {
+      userId.value = user.id || "";
+      form.value.name = user.username || "";
+      form.value.email = user.email || "";
+      form.value.hasFamily = user.hasFamily || false;
+      form.value.verified = user.verified || false;
+    }
+  } catch (error) {
+    console.error('Ошибка при загрузке данных пользователя:', error);
+  }
+}
+
+async function onSubmit(event: Event) {
+  event.preventDefault();
+  await UserService.update(userId.value, form.value);
+}
 </script>
 
 <template>

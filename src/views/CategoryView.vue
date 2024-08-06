@@ -51,7 +51,7 @@
 
 </template>
 
-<script lang="ts">
+<script lang="ts" v>
 import {Category} from "../api/api";
 import CategoryService from "../services/CategoryService";
 import {BButton} from "bootstrap-vue-next";

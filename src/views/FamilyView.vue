@@ -1,23 +1,17 @@
-<script lang="ts">
-import {useAuthStore} from "../auth/store/authStore";
+<script lang="ts" setup>
+import {useAuthStore} from "../store/auth/store/authStore";
 
 import Family from '../components/Family/Family.vue';
 import CreateFamily from '../components/CreateFamily/CreateFamily.vue';
 
-export default {
-  name: "FamilyView",
-  components: {Family, CreateFamily},
-  setup() {
-    const authStore = useAuthStore();
-    return {authStore};
-  },
-};
+const {hasFamily} = useAuthStore();
+
 </script>
 
 <template>
   <h1>Семья</h1>
 
-  <Family v-if="authStore.hasFamily"/>
+  <Family v-if="hasFamily"/>
   <CreateFamily v-else/>
 
 </template>

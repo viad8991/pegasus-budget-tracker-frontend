@@ -1,22 +1,6 @@
 import {defineStore} from "pinia";
-import AuthService from "../../services/AuthService";
+import AuthService from "../../../services/AuthService";
 import {AuthState, LoginCredentials, LoginResponse} from "../types/authTypes";
-
-// вижу, что ты тут хранить данные пользователя
-// обычно за данные пользователя отвечает пользовательский стор UserStore
-// а за данные по авторизации AuthStore, там хранят username, password из формы
-
-// типы выносятся в отдельный файл, чтобы не засорять данные, в котором итак много логики будет помимо типов
-// структура обычно такая:
-// auth
-//      store
-//         authStore.ts
-//          authStore.test.ts
-//      types
-//          authStoreTypes.ts
-
-// именование файлов для сторов принято вести с приставкой authStore
-// хз почему так, но много где видел
 
 export const useAuthStore = defineStore({
     id: "authStore",

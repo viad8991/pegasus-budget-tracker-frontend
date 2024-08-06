@@ -1,5 +1,5 @@
 import {User} from "../api/api";
-import {useAuthStore} from "../auth/store/authStore";
+import {useAuthStore} from "../store/auth/store/authStore";
 import axios from "axios";
 
 class UserService {

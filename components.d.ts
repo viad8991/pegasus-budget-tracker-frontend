@@ -7,8 +7,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Auth: typeof import('./src/components/Auth.vue')['default']
-    AuthView: typeof import('./src/components/AuthView.vue')['default']
     BAlert: typeof import('bootstrap-vue-next')['BAlert']
     BButton: typeof import('bootstrap-vue-next')['BButton']
     BCard: typeof import('bootstrap-vue-next')['BCard']
@@ -30,12 +28,13 @@ declare module 'vue' {
     BTable: typeof import('bootstrap-vue-next')['BTable']
     CreateFamily: typeof import('./src/components/CreateFamily/CreateFamily.vue')['default']
     Family: typeof import('./src/components/Family/Family.vue')['default']
+    FamilyList: typeof import('./src/components/FamilyList/FamilyList.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     LoginForm: typeof import('./src/components/LoginForm/LoginForm.vue')['default']
     Profile: typeof import('./src/components/Profile/Profile.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    UserList: typeof import('./src/components/UserList.vue')['default']
+    UserList: typeof import('./src/components/UserList/UserList.vue')['default']
   }
   export interface ComponentCustomProperties {
     vBColorMode: typeof import('bootstrap-vue-next')['vBColorMode']

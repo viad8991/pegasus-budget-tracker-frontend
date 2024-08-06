@@ -1,14 +1,15 @@
+import {LoginResponse} from "../store/auth/types/authTypes";
 import axios from "axios";
-import {LoginResponse} from "../auth/types/authTypes";
+
+// import axios from "../axios";
 
 class AuthService {
-    private _serverBaseUrl: string = "http://localhost:8080/api/v1/auth";
+    private _serverBaseUrl: string = "";
 
     async login(username: string, password: string) {
         return await axios
-            .post<LoginResponse>(this._serverBaseUrl, {username, password})
+            .post<LoginResponse>("/api/v1/auth", {username, password})
             .then((response) => {
-                console.log(response);
                 return response.data;
             })
             .catch((reason) => {

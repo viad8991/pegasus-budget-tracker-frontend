@@ -1,4 +1,4 @@
-import {User} from "./userTypes";
+import {User} from "../../user/types/userTypes";
 
 export interface LoginCredentials {
     username: string;

@@ -1,3 +1,27 @@
+<script lang="ts" setup>
+import {computed} from 'vue';
+import {useRouter} from 'vue-router';
+import {useAuthStore} from "../store/auth/store/authStore";
+
+const router = useRouter();
+const authStore = useAuthStore();
+
+// TODO
+// В сторе есть getters, они отвечают за реактивность и можно это получать оттуда (из getter-a)
+const isAuth = computed(() => authStore.token);
+const isAdmin = computed(() => authStore.isAdmin);
+const username = computed(() => authStore.username);
+
+const handleLogout = async () => {
+  await authStore.logout();
+  await router.push('/');
+};
+const handleSigIn = async () => {
+  await router.push('/auth');
+}
+
+</script>
+
 <template>
   <BNavbar toggleable="lg" variant="dark" v-b-color-mode="'dark'">
     <BNavbarBrand href="/">Pegasus BT</BNavbarBrand>
@@ -30,47 +54,12 @@
           <BDropdownItem href="/profile">Профиль</BDropdownItem>
           <BDropdownItem @click="handleLogout">Sign Out</BDropdownItem>
         </BNavItemDropdown>
-        <BButton v-else variant="dark" @click="goToAuth">Sign In</BButton>
+        <BButton v-else variant="dark" @click="handleSigIn">Sign In</BButton>
 
       </BNavbarNav>
     </BCollapse>
   </BNavbar>
 </template>
-
-<script lang="ts">
-import {computed} from 'vue';
-import {useRouter} from 'vue-router';
-import {useAuthStore} from "../auth/store/authStore";
-
-const router = useRouter();
-const authStore = useAuthStore();
-
-// TODO
-// В сторе есть getters, они отвечают за реактивность и можно это получать оттуда (из getter-a)
-const isAuth = computed(() => authStore.token);
-const isAdmin = computed(() => {
-  return authStore.isAdmin
-});
-
-export default {
-  name: "Header",
-  // getters: {},
-  data() {
-      return {
-        username:  authStore.username
-      }
-  },
-  methods: {
-    async handleLogout() {
-      await authStore.logout();
-      await router.push('/');
-    },
-    async goToAuth() {
-      await router.push('/auth');
-    }
-  }
-};
-</script>
 
 <style scoped>
 

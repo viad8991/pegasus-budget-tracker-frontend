@@ -1,5 +1,5 @@
-<script lang="ts">
-import {useAuthStore} from "../../auth/store/authStore";
+<script lang="ts" setup>
+import {useAuthStore} from "../../store/auth/store/authStore";
 import {useRouter} from "vue-router";
 
 const authStore = useAuthStore();
