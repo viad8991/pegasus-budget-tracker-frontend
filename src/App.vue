@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" setup>
 import Header from './components/Header.vue';
 import {defineComponent} from "vue";
 import {useAuthStore} from "./store/auth/store/authStore";
@@ -8,9 +8,6 @@ import {useAuthStore} from "./store/auth/store/authStore";
 // сделать HtppService пример у Arttek-a
 // изолировать сторы от прямой работы с бизнес логиков (запросов на сервер), это должно быть в серсивах, а сторы вызывают методы сервисов
 
-const authStore = useAuthStore();
-
-authStore.authenticate();
 </script>
 
 <template>

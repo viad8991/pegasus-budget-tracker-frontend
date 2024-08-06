@@ -1,14 +1,10 @@
-import {LoginResponse} from "../store/auth/types/authTypes";
-import axios from "axios";
-
-// import axios from "../axios";
+import { LoginResponse } from "../store/auth/types/authTypes";
+import axios from "../axios";
 
 class AuthService {
-    private _serverBaseUrl: string = "";
-
     async login(username: string, password: string) {
         return await axios
-            .post<LoginResponse>("/api/v1/auth", {username, password})
+            .post<LoginResponse>("/api/v1/auth", { username, password })
             .then((response) => {
                 return response.data;
             })
@@ -22,10 +18,10 @@ class AuthService {
                         username: "admin",
                         isAdmin: true,
                         email: "admin@admin.com",
-                        verified: true
-                    }
-                }
-                return stub
+                        verified: true,
+                    },
+                };
+                return stub;
             });
     }
 
