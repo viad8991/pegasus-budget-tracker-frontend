@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
-import {User} from "../../api/api";
 import UserService from "../../services/UserService";
+import {tableRow} from "./static/userTableFields";
+import {User} from "../../store/user/types/userTypes";
 
 const router = useRouter();
 
@@ -32,16 +33,14 @@ onMounted(fetchUsers);
 </script>
 
 <template>
-  <div class="container">
-    <h1>Список пользователей</h1>
-    <BTable
-        :fields="fields"
-        :items="items"
-        @row-clicked="onRowClicked"
-        mode="single"
-    >
-    </BTable>
-  </div>
+  <h3>Список пользователей</h3>
+  <BTable
+      :fields="fields"
+      :items="items"
+      @row-clicked="onRowClicked"
+      mode="single"
+  >
+  </BTable>
 </template>
 
 <style scoped>

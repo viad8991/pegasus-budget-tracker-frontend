@@ -1,27 +1,22 @@
-import axios from "axios";
-import {Category} from "../api/api";
-import {useAuthStore} from "../store/auth/store/authStore";
+import axios from "../axios";
 
 /* TODO temp */
 interface CreateFamilyResponse {
-    susses: boolean;
-    error: string | null
+    id: string | null;
 }
 
 /* TODO end temp */
 
 class FamilyService {
-    private _serverBaseUrl: string = "http://localhost:8080/api/v1/family";
 
     async create() {
-        return axios.post<CreateFamilyResponse>(this._serverBaseUrl, {}, {headers: {"Authorization": useAuthStore().token}})
+        return axios.post<CreateFamilyResponse>("/api/v1/family", {})
             .then(response => {
                 return response.data
             }).catch(reason => {
                 console.log(reason)
                 const stub: CreateFamilyResponse = {
-                    susses: true,
-                    error: null
+                    id: "stub-id"
                 }
                 return stub;
             })

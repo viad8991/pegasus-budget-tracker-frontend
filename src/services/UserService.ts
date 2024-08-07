@@ -1,6 +1,6 @@
-import {User} from "../api/api";
 import {useAuthStore} from "../store/auth/store/authStore";
 import axios from "axios";
+import {User} from "../store/user/types/userTypes";
 
 class UserService {
     private _serverBaseUrl: string = "http://localhost:8080/api/v1/user";

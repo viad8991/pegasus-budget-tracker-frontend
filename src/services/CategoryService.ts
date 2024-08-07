@@ -1,6 +1,6 @@
 import axios from "axios";
 import {useAuthStore} from "../store/auth/store/authStore";
-import {Category} from "../api/api";
+import {Category} from "../store/category/types/categoryTypes";
 
 class CategoryService {
     private _serverBaseUrl: string = "http://localhost:8080/api/v1/category";

@@ -6,9 +6,9 @@ import UserService from "../../services/UserService";
 import {storeToRefs} from "pinia";
 
 const authStore = useAuthStore()
-const {id} = storeToRefs(authStore);
+const {user} = storeToRefs(authStore);
 
-const userId = ref(id);
+const userId = ref(user.value?.id);
 const form = ref({
   name: '',
   email: '',

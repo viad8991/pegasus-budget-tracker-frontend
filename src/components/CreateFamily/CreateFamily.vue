@@ -1,16 +1,10 @@
 <script lang="ts" setup>
 import FamilyService from "../../services/FamilyService";
-import {useRouter} from "vue-router";
-import {useAuthStore} from "../../store/auth/store/authStore";
-  
+
 async function handleCreateFamily() {
-  const router = useRouter();
   const response = await FamilyService.create();
-  const authStore = useAuthStore();
-  
-  if (response.susses) {
-    
-    router.push(router.currentRoute.value.path);
+  if (response.id) {
+    location.reload()
   } else {
 
   }

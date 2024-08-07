@@ -29,7 +29,7 @@
       cancel-title="Закрыть"
       :title="form.id ? 'Редактировать \'' + form.name + '\'' : 'Создать категорию'"
       @ok="onSave"
-  >
+  ><!-- v-model="modal" -->
     <BForm>
       <BFormGroup label="Название" label-for="category-name">
         <BFormInput
@@ -51,58 +51,54 @@
 
 </template>
 
-<script lang="ts" v>
-import {Category} from "../api/api";
+<script lang="ts" setup>
 import CategoryService from "../services/CategoryService";
-import {BButton} from "bootstrap-vue-next";
-import dayjs from 'dayjs';
+import {BButton, useModal} from "bootstrap-vue-next";
+import {onMounted, ref} from "vue";
+import {Category} from "../store/category/types/categoryTypes";
+import {formatDate} from "../utils/dateTime";
 
-export default {
-  components: {BButton},
-  data() {
-    return {
-      // TODO
-      // статика в отдельный файл
-      fields: [
-        {key: 'id', label: 'ID', type: "text"},
-        {key: 'name', label: 'Название', type: "text"},
-        {key: 'description', label: 'Описание', type: "text"},
-        {key: 'update', label: 'Обновление', type: "datetime"},
-        {key: 'created', label: 'Создание', type: "datetime"},
-      ],
-      items: [] as Category[],
-      form: {id: null, name: "", description: null} as Category,
-    }
-  },
-  methods: {
-    async fetchCategories() {
-      this.items = await CategoryService.all()
-    },
-    openCreateModal() {
-      // TODO
-      // данные для формы в отдельный стор, форму в отдельный компонент
-      this.form = {id: null, name: '', description: null};
-      (this.$refs["category-modal-ref"] as any).show()
-    },
-    onRowClicked(row: Category) {
-      this.form = {...row};
-      (this.$refs["category-modal-ref"] as any).show()
-    },
-    async onSave() {
-      if (this.form.id) {
-        await CategoryService.update(this.form);
-      } else {
-        await CategoryService.create(this.form);
-      }
-      await this.fetchCategories();
-    },
-    formatDate(isoString: string) {
-      return dayjs(isoString).format('YYYY.MM.DD HH:mm:ss');
-    }
-  },
-  mounted() {
-    this.fetchCategories()
-  },
+// const {show, hide, modal} = useModal('my-modal'); // (this.$refs["category-modal-ref"] as any).show()
+const form = ref<Category>({id: "", name: "", description: null});
+const items = ref<Category[]>();
+const fields = [
+  {key: 'id', label: 'ID', type: "text"},
+  {key: 'name', label: 'Название', type: "text"},
+  {key: 'description', label: 'Описание', type: "text"},
+  {key: 'update', label: 'Обновление', type: "datetime"},
+  {key: 'created', label: 'Создание', type: "datetime"},
+];
+
+onMounted(async () => {
+  await fetchCategories()
+});
+
+const fetchCategories = async () => {
+  items.value = await CategoryService.all()
+};
+
+const openCreateModal = async () => {
+  // TODO
+  // данные для формы в отдельный стор, форму в отдельный компонент
+  form.value = {id: "", name: "", description: null};
+  // modal.show()
+  // show()
+};
+
+const onRowClicked = async (row: Category) => {
+  console.log(row)
+  form.value = {...row};
+  // modal.show()
+  // show()
+};
+
+const onSave = async () => {
+  if (form.value?.id) {
+    await CategoryService.update(form.value);
+  } else {
+    await CategoryService.create(form.value);
+  }
+  await fetchCategories();
 };
 </script>
 

@@ -1,40 +1,34 @@
 <script lang="ts" setup>
 import {useAuthStore} from "../../store/auth/store/authStore";
 import {useRouter} from "vue-router";
+import {ref} from "vue";
 
 const authStore = useAuthStore();
 const router = useRouter();
 
-export default {
-  name: "LoginForm",
-  data() {
-    return {
-      username: "",
-      password: "",
-      errorMessage: "",
-    }
-  },
-  methods: {
-    async handleLogin() {
-      this.errorMessage = '';
+const username = ref("");
+const password = ref("");
+const errorMessage = ref("");
 
-      // TODO
-      // Тут try catch, внутри authStore.auth try catch это bad practise
-      // Позови как-нибудь, я расскажу как правильно организовать структуру обработки ошибок
-      const user = await authStore.auth(this.username, this.password)
+async function handleLogin() {
+  errorMessage.value = '';
 
-      if (user) {
-        await router.push('/');
-      } else {
-        this.errorMessage = "Ошибка авторизации";
-      }
-    }
+  // TODO
+  // Тут try catch, внутри authStore.auth try catch это bad practise
+  // Позови как-нибудь, я расскажу как правильно организовать структуру обработки ошибок
+  console.log(authStore)
+  const user = await authStore.auth(username.value, password.value)
+
+  if (user) {
+    await router.push('/');
+  } else {
+    errorMessage.value = "Ошибка авторизации";
   }
-};
+}
 </script>
 
 <template>
-  <BForm @submit.prevent="handleLogin">
+  <BForm @submit="handleLogin">
 
     <BFormFloatingLabel label="Login" label-for="floatingEmail" class="my-2">
       <BFormInput v-model="username" id="username" type="text" placeholder="Login"/>

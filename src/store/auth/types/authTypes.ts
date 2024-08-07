@@ -11,9 +11,10 @@ export interface LoginResponse {
 }
 
 export interface AuthState {
-    id: string | null;
-    username: string;
+    // id: string | null;
+    // username: string;
     token: string | null;
-    hasFamily: boolean;
-    isAdmin: boolean;
+    user: User | null;
+    // hasFamily: boolean;
+    // isAdmin: boolean;
 }

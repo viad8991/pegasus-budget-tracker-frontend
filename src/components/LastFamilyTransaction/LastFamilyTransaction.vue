@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <h3 class="text-center">Список пользователей</h3>
+  <h3 class="text-center">Последние траты</h3>
 </template>
 
 <style scoped>

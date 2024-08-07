@@ -3,10 +3,11 @@ import {useAuthStore} from "../store/auth/store/authStore";
 
 import Family from '../components/Family/Family.vue';
 import CreateFamily from '../components/CreateFamily/CreateFamily.vue';
+import {computed} from "vue";
 
 const authStore = useAuthStore();
-const hasFamily = computed(() => authStore.hasFamily);
-  
+const hasFamily = computed(() => authStore.user?.hasFamily);
+
 </script>
 
 <template>

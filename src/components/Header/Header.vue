@@ -1,16 +1,18 @@
 <script lang="ts" setup>
-import {computed} from 'vue';
+import {computed, ref} from 'vue';
 import {useRouter} from 'vue-router';
-import {useAuthStore} from "../store/auth/store/authStore";
+import {useAuthStore} from "../../store/auth/store/authStore";
+import {headerTabs} from "./static/headerTabs";
 
 const router = useRouter();
 const authStore = useAuthStore();
 
 // TODO
 // В сторе есть getters, они отвечают за реактивность и можно это получать оттуда (из getter-a)
-const isAuth = computed(() => authStore.token);
-const isAdmin = computed(() => authStore.isAdmin);
-const username = computed(() => authStore.username);
+const isAuth = computed(() => authStore.token !== null);
+const username = computed(() => authStore.user?.username);
+
+const tabs = ref(headerTabs)
 
 const handleLogout = async () => {
   await authStore.logout();
@@ -28,19 +30,25 @@ const handleSigIn = async () => {
     <BNavbarToggle target="nav-collapse"/>
     <BCollapse id="nav-collapse" is-nav>
 
-      <!--   TODO можно вынести в отдельный файл со статическими данными и использовать v-for. Схема примерно такая {name, isAdmin, link, isDisabled}   -->
+      <!--   TODO можно вынести в отдельный файл со статическими данными и использовать v-for.
+      Схема примерно такая {name, isAdmin, link, isDisabled}   -->
       <BNavbarNav>
-        <BNavItem v-if="isAdmin" href="/user">Пользователи</BNavItem>
-        <BNavItem v-if="isAdmin" href="/category">Категории</BNavItem>
-
-        <BNavItem href="/family">Семья</BNavItem>
-
-        <BNavItem href="#" disabled>Disabled</BNavItem>
+        <BNavItem
+            v-for="tab in tabs"
+            :key="tab.label"
+            :href="tab.href"
+            :disabled="tab.requiresAdmin"
+        >
+          <!-- v-if="(tab.requiresAdmin && isAdmin)" -->
+          {{ tab.label }}
+        </BNavItem>
       </BNavbarNav>
 
       <BNavbarNav class="ms-auto mb-2 mb-lg-0">
-        <!--    TODO тоже самое. если статика, то в отдельный файл. Иначе получаем с бэка и v-for    -->
-        <BNavItemDropdown text="Lang" right>
+        <!-- TODO тоже самое. если статика, то в отдельный файл. Иначе получаем с бэка и v-for
+              Пока не уверен, что это реализация будет, save
+        -->
+        <BNavItemDropdown text="Langs" right>
           <BDropdownItem href="#">EN</BDropdownItem>
           <BDropdownItem href="#">ES</BDropdownItem>
           <BDropdownItem href="#">RU</BDropdownItem>

@@ -1,20 +1,8 @@
 <template>
-<!--  TODO весь блок BForm до 15 строки здесь это отдельный компонент, надо выносить -->
-  <BForm @submit.prevent="handleLogin">
+  <!--  TODO весь блок BForm до 15 строки здесь это отдельный компонент, надо выносить -->
+  <LoginForm/>
 
-    <BFormFloatingLabel label="Login" label-for="floatingEmail" class="my-2">
-      <BFormInput v-model="username" id="username" type="text" placeholder="Login"/>
-    </BFormFloatingLabel>
-
-    <BFormFloatingLabel label="Password" label-for="floatingPassword" class="my-2">
-      <BFormInput v-model="password" id="password" type="password" placeholder="Password"/>
-    </BFormFloatingLabel>
-
-    <BButton @click="handleLogin" type="submit" variant="dark" class="w-100 my-3">Войти</BButton>
-
-  </BForm>
-
-  <BAlert variant="danger" show v-if="errorMessage">{{ errorMessage }}</BAlert>
+  <!-- <BAlert variant="danger" show v-if="errorMessage">{{ errorMessage }}</BAlert>-->
 
 </template>
 
@@ -22,6 +10,7 @@
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useAuthStore} from "../store/auth/store/authStore";
+import LoginForm from "../components/LoginForm/LoginForm.vue";
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -51,7 +40,7 @@ const handleLogin = async () => {
 
   } catch (error) {
     console.error('Ошибка:', error);
-    errorMessage.value = "Ошибка авторизации" ;
+    errorMessage.value = "Ошибка авторизации";
   }
 };
 </script>

@@ -1,4 +1,4 @@
-const tableRow = [
+export const tableRow = [
     {key: 'username', label: 'Имя пользователя'},
     {key: 'email', label: 'E-Mail'},
     {key: 'verified', label: 'Верифицирован'},

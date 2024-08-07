@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import Header from './components/Header.vue';
-import {defineComponent} from "vue";
-import {useAuthStore} from "./store/auth/store/authStore";
+import Header from './components/Header/Header.vue';
 
 // TODO
 // сделать файл настройек для http-client-a, можно взять пример у Arttek-a axios.js

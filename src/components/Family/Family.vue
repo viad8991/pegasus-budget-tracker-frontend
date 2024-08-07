@@ -1,22 +1,22 @@
 <script lang="ts" setup>
 
-import {onMounted} from "vue";
-
-onMounted(() => {
-
-});
+import LastFamilyTransaction from "../LastFamilyTransaction/LastFamilyTransaction.vue";
+import FamilyList from "../FamilyList/FamilyList.vue";
 
 </script>
 
 <template>
 
-  <h1>Последние траты</h1>
-
-  <!-- <LastFamilyTransaction />-->
-
-  <h1>Список пользователей</h1>
-
-  <!-- <FamilyList/>-->
+  <BContainer>
+    <BRow>
+      <BCol>
+        <LastFamilyTransaction/>
+      </BCol>
+      <BCol>
+        <FamilyList/>
+      </BCol>
+    </BRow>
+  </BContainer>
 
 </template>
 
