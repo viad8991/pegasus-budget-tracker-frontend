@@ -14,11 +14,12 @@ class AuthService {
                     token: "stub",
                     user: {
                         id: "4cfd7412-eafe-4056-a5ec-343a3a662c3d",
-                        hasFamily: false,
+                        hasFamily: true,
                         username: "admin",
                         isAdmin: true,
                         email: "admin@admin.com",
                         verified: true,
+                        isActive: true,
                     },
                 };
                 return stub;

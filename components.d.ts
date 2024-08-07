@@ -10,7 +10,6 @@ declare module 'vue' {
     AddTransaction: typeof import('./src/components/AddTransaction/AddTransaction.vue')['default']
     BAlert: typeof import('bootstrap-vue-next')['BAlert']
     BButton: typeof import('bootstrap-vue-next')['BButton']
-    BCard: typeof import('bootstrap-vue-next')['BCard']
     BCol: typeof import('bootstrap-vue-next')['BCol']
     BCollapse: typeof import('bootstrap-vue-next')['BCollapse']
     BContainer: typeof import('bootstrap-vue-next')['BContainer']
@@ -21,7 +20,6 @@ declare module 'vue' {
     BFormGroup: typeof import('bootstrap-vue-next')['BFormGroup']
     BFormInput: typeof import('bootstrap-vue-next')['BFormInput']
     BFormSelect: typeof import('bootstrap-vue-next')['BFormSelect']
-    BFormSelectOption: typeof import('bootstrap-vue-next')['BFormSelectOption']
     BFormTextarea: typeof import('bootstrap-vue-next')['BFormTextarea']
     BModal: typeof import('bootstrap-vue-next')['BModal']
     BNavbar: typeof import('bootstrap-vue-next')['BNavbar']
@@ -32,7 +30,6 @@ declare module 'vue' {
     BNavItemDropdown: typeof import('bootstrap-vue-next')['BNavItemDropdown']
     BRow: typeof import('bootstrap-vue-next')['BRow']
     BTable: typeof import('bootstrap-vue-next')['BTable']
-    CategoryView: typeof import('./src/views/CategoryView.vue')['default']
     CreateFamily: typeof import('./src/components/CreateFamily/CreateFamily.vue')['default']
     Family: typeof import('./src/components/Family/Family.vue')['default']
     FamilyList: typeof import('./src/components/FamilyList/FamilyList.vue')['default']
@@ -47,6 +44,5 @@ declare module 'vue' {
   }
   export interface ComponentCustomProperties {
     vBColorMode: typeof import('bootstrap-vue-next')['vBColorMode']
-    vBModal: typeof import('bootstrap-vue-next')['vBModal']
   }
 }

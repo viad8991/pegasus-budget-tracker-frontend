@@ -1,5 +1,5 @@
 interface HeaderTabs {
-    key: string
+    key: string;
     href: string;
     label: string;
     disable: boolean;
@@ -7,8 +7,32 @@ interface HeaderTabs {
 }
 
 export const headerTabs: HeaderTabs[] = [
-    {key: 'transaction', label: 'Операции', href: "/transaction", requiresAdmin: false, disable: false},
-    {key: 'family', label: 'Семья', href: "/family", requiresAdmin: false, disable: false},
-    {key: 'user', label: 'Пользователи', href: "/user", requiresAdmin: false, disable: false},
-    {key: 'category', label: 'Категории', href: "/category", requiresAdmin: false, disable: false},
+    {
+        key: "transaction",
+        label: "Транзакции",
+        href: "/transaction",
+        requiresAdmin: false,
+        disable: false,
+    },
+    {
+        key: "family",
+        label: "Семья",
+        href: "/family",
+        requiresAdmin: false,
+        disable: false,
+    },
+    {
+        key: "user",
+        label: "Пользователи",
+        href: "/user",
+        requiresAdmin: false,
+        disable: false,
+    },
+    {
+        key: "category",
+        label: "Категории",
+        href: "/category",
+        requiresAdmin: false,
+        disable: false,
+    },
 ];

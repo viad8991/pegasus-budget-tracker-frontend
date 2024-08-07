@@ -18,8 +18,8 @@ const form = ref({
 
 onMounted(() => {
   const route = useRoute()
-  const routeUserId = route.params.id[0]
-
+  const routeUserId = route.params.id
+  
   if (routeUserId) {
     userId.value = routeUserId;
   }

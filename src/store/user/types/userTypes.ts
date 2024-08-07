@@ -5,6 +5,7 @@ export interface User {
     isAdmin: boolean;
     hasFamily: boolean;
     verified: boolean;
+    isActive: boolean;
 }
 
 // export interface User {
