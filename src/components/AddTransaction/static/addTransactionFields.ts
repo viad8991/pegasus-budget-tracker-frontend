@@ -1,14 +1,17 @@
 import {Category} from "../../../store/category/types/categoryTypes";
 import {reactive, ref} from "vue";
+import {TransactionEnum, TransactionTypes} from "../../../consts/TransactionTypes";
 
-export const categoriesType = ref<{ text: string, value: Category, disabled: boolean }[]>([])
+interface CategoryTypes { text: string, value: Category, disabled: boolean }
+
+export const categoriesType = ref<CategoryTypes[]>([])
 
 export const transactionTypes = [
-    {text: "Приход", value: "INCOME"},
+    {text: TransactionTypes[TransactionEnum.INCOME], value: TransactionEnum.INCOME},
     {text: "Расход", value: "EXPENSE"}
 ];
 
-export const selectedType = ref("INCOME");
+export const selectedType = ref(TransactionEnum.INCOME);
 
 export const form = reactive({
     type: "INCOME",

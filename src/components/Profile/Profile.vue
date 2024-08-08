@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue'
-import {useAuthStore} from "../../store/auth/store/authStore";
+import {useAuthStore} from "../../store/auth/authStore";
 import {useRoute, useRouter} from "vue-router";
 import UserService from "../../services/UserService";
 import {storeToRefs} from "pinia";

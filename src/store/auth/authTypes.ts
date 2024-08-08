@@ -1,8 +1,13 @@
-import {User} from "../../user/types/userTypes";
+import {User} from "../user/types/userTypes";
 
 export interface LoginCredentials {
     username: string;
     password: string;
+}
+
+export interface LoginResponse {
+    token: string;
+    user: User;
 }
 
 export interface LoginResponse {

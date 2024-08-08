@@ -38,9 +38,6 @@ onMounted(fetchUsers);
       {{ formatDate(date.value) }}
     </template>
 
-    <template #cell(category)="data">
-      {{ data.value.name }} - {{ data.value.type }}
-    </template>
   </BTable>
 </template>
 

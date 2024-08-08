@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {computed, ref} from 'vue';
 import {useRouter} from 'vue-router';
-import {useAuthStore} from "../../store/auth/store/authStore";
+import {useAuthStore} from "../../store/auth/authStore";
 import {headerTabs} from "./static/headerTabs";
 
 const router = useRouter();

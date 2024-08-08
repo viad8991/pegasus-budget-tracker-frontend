@@ -1,5 +1,5 @@
 import { User } from "../store/user/types/userTypes";
-import axios from "../axios";
+import axios from "../utils/axios";
 
 class UserService {
     private _stubUsers: User[] = [

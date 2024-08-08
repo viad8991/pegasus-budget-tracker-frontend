@@ -1,7 +1,11 @@
-import { LoginResponse } from "../store/auth/types/authTypes";
-import axios from "../axios";
+import { LoginResponse } from "../store/auth/authTypes";
+import axios from "../utils/axios";
 
 class AuthService {
+    async fetchUserData( token: string) {
+
+    }
+
     async login(username: string, password: string) {
         return await axios
             .post<LoginResponse>("/api/v1/auth", { username, password })

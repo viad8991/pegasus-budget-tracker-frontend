@@ -1,6 +1,6 @@
 import { Transaction } from "../store/transaction/types/transactionTypes";
 import { Category } from "../store/category/types/categoryTypes";
-import axios from "../axios";
+import axios from "../utils/axios";
 
 /* TODO temp */
 interface CreateFamilyResponse {

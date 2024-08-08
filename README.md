@@ -83,3 +83,4 @@ https://www.npmjs.com/package/react-toastify
 // именование файлов для сторов принято вести с приставкой authStore
 // хз почему так, но много где видел
 ```
+// TODO add HOC (high order component) (Users + Categories)

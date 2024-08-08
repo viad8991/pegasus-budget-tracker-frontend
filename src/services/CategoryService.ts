@@ -1,6 +1,6 @@
-import {useAuthStore} from "../store/auth/store/authStore";
+import {useAuthStore} from "../store/auth/authStore";
 import {Category} from "../store/category/types/categoryTypes";
-import axios from "../axios";
+import axios from "../utils/axios";
 
 class CategoryService {
     private _stub: Category[] = [

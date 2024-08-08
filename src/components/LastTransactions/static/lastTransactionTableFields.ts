@@ -1,6 +1,6 @@
 export const tableRow = [
-    {key: 'type', label: 'Тип'},
+    {key: 'category.type', label: 'Тип'},
     {key: 'amount', label: 'Сумма'},
-    {key: 'category', label: 'Категория'},
+    {key: 'category.name', label: 'Категория'},
     {key: 'date', label: 'Дата'},
 ];

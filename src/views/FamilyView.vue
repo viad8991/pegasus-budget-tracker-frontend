@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {useAuthStore} from "../store/auth/store/authStore";
+import {useAuthStore} from "../store/auth/authStore";
 
 import Family from '../components/Family/Family.vue';
 import CreateFamily from '../components/CreateFamily/CreateFamily.vue';
