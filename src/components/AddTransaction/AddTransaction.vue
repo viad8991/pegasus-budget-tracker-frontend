@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import {onMounted} from "vue";
+import {onMounted, watch} from "vue";
 import TransactionService from "../../services/TransactionService";
 import CategoryService from "../../services/CategoryService";
-import {categoriesType, form, transactionType} from './static/addTransactionFields';
+import {categoriesType, form, selectedType, transactionTypes} from './static/addTransactionFields';
 import {Category} from "../../store/category/types/categoryTypes";
 
-const onSubmit = async () => {
-  await TransactionService.create(form.type, form.amount, form.category)
-}
-
 onMounted(async () => {
-  const categoriesFromServer = await CategoryService.all();
+
+});
+
+watch(selectedType, async (newType, _) => {
+  const categoriesFromServer = await CategoryService.getByType(newType);
   categoriesType.value = [
     {text: '...', value: {} as Category, disabled: true},
     ...categoriesFromServer.map(category => ({
@@ -19,7 +19,11 @@ onMounted(async () => {
       disabled: false
     }))
   ];
-});
+})
+
+const onSubmit = async () => {
+  await TransactionService.create(form.amount, form.category)
+}
 </script>
 
 <template>
@@ -31,11 +35,11 @@ onMounted(async () => {
     </BFormGroup>
 
     <BFormGroup id="type-input-group" label="Тип:" label-for="type-input">
-      <BFormSelect id="type-input" v-model="form.type" :options="transactionType" required/>
+      <BFormSelect id="type-input" v-model="selectedType" :options="transactionTypes" required/>
     </BFormGroup>
 
-    <BFormGroup id="transaction-type-input-group" label="Категория:" label-for="transaction-type-input">
-      <BFormSelect id="transaction-type-input" v-model="form.category" :options="categoriesType" required/>
+    <BFormGroup id="category-input-group" label="Категория:" label-for="category-input">
+      <BFormSelect id="category-input" v-model="form.category" :options="categoriesType" required/>
     </BFormGroup>
 
     <BButton type="submit" variant="dark" class="w-100 my-3">Сохранить</BButton>

@@ -1,36 +1,38 @@
-import { useAuthStore } from "../store/auth/store/authStore";
-import { Category } from "../store/category/types/categoryTypes";
+import {useAuthStore} from "../store/auth/store/authStore";
+import {Category} from "../store/category/types/categoryTypes";
 import axios from "../axios";
 
 class CategoryService {
     private _stub: Category[] = [
         {
             id: "id-1",
-            name: "Супермаркеты",
+            type: "INCOME",
+            name: "Foo",
             description: null,
         },
         {
             id: "id-2",
-            name: "Транспорт",
+            type: "EXPENSE",
+            name: "Bar",
             description: null,
         },
     ];
 
-    async all() {
+    async getByType(type: string) {
         return axios
-            .get<Category[]>("/api/v1/category")
+            .get<Category[]>("/api/v1/category", {params: {"type": type}})
             .then((response) => {
                 return response.data;
             })
             .catch((reason) => {
                 console.log(reason);
-                return this._stub;
+                return this._stub.filter(value => value.type === type);
             });
     }
 
-    async update(category: any) {
+    async update(id: string, name: string, type: string, description: string) {
         return axios
-            .post<Category>("/api/v1/category/" + category.id, category)
+            .post<Category>("/api/v1/category/" + id, {name, type, description})
             .then((response) => {
                 return response.data;
             })
@@ -40,10 +42,9 @@ class CategoryService {
             });
     }
 
-    async create(category: any) {
-        delete category["id"];
+    async create(name: string, type: string, description: string) {
         return axios
-            .post<Category>("/api/v1/category", category)
+            .post<Category>("/api/v1/category", {name, type, description})
             .then((response) => {
                 return response.data;
             })

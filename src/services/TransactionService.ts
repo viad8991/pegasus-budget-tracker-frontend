@@ -13,6 +13,7 @@ class TransactionService {
     private _categoryStub: Category = {
         id: "stub",
         name: "Stub",
+        type: "INCOMING",
         description: null,
     };
     private _stubTransaction: Transaction[] = [
@@ -20,14 +21,12 @@ class TransactionService {
             id: "stub-transaction-id-1",
             amount: 100.0,
             date: "2024-08-07T11:22:53.530837484Z",
-            type: "INCOME",
             category: this._categoryStub,
         },
         {
             id: "stub-transaction-id-2",
             amount: 110.0,
             date: "2024-08-08T11:22:53.530837484Z",
-            type: "INCOME",
             category: this._categoryStub,
         },
     ];
@@ -36,6 +35,7 @@ class TransactionService {
         return axios
             .get<Transaction[]>("/api/v1/transaction")
             .then((response) => {
+                console.log(response)
                 return response.data;
             })
             .catch((reason) => {
@@ -44,13 +44,9 @@ class TransactionService {
             });
     }
 
-    async create(type: string, amount: number, category: Category) {
+    async create(amount: number, category: Category) {
         return axios
-            .post<CreateFamilyResponse>("/api/v1/transaction", {
-                type,
-                amount,
-                category,
-            })
+            .post<CreateFamilyResponse>("/api/v1/transaction", {amount, category})
             .then((response) => {
                 return response.data;
             })

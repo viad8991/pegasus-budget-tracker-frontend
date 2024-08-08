@@ -3,14 +3,15 @@ import {reactive, ref} from "vue";
 
 export const categoriesType = ref<{ text: string, value: Category, disabled: boolean }[]>([])
 
-export const transactionType = [
-    {text: "...", value: "", disabled: true},
+export const transactionTypes = [
     {text: "Приход", value: "INCOME"},
     {text: "Расход", value: "EXPENSE"}
-]
+];
+
+export const selectedType = ref("INCOME");
 
 export const form = reactive({
-    type: "",
+    type: "INCOME",
     amount: 0,
     category: {} as Category,
 })
