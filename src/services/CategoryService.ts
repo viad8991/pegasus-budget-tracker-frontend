@@ -30,7 +30,7 @@ class CategoryService {
             });
     }
 
-    async update(id: string, name: string, type: string, description: string) {
+    async update(id: string, name: string, type: string, description: string | null) {
         return axios
             .post<Category>("/api/v1/category/" + id, {name, type, description})
             .then((response) => {
@@ -42,7 +42,7 @@ class CategoryService {
             });
     }
 
-    async create(name: string, type: string, description: string) {
+    async create(name: string, type: string, description: string | null) {
         return axios
             .post<Category>("/api/v1/category", {name, type, description})
             .then((response) => {

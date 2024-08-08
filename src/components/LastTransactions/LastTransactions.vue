@@ -15,7 +15,6 @@ const onRowClicked = async (row: Transaction) => {
 const fetchUsers = async () => {
   const transactions = await TransactionService.list();
   if (transactions) {
-    console.log(transactions[0])
     items.value = transactions;
   } else {
     console.error('Не удалось загрузить список пользователей');
