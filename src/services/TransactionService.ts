@@ -1,5 +1,5 @@
-import { Transaction } from "../store/transaction/types/transactionTypes";
-import { Category } from "../store/category/types/categoryTypes";
+import { Transaction } from "../store/transaction/transactionTypes";
+import { Category } from "../store/category/categoryTypes";
 import axios from "../utils/axios";
 
 /* TODO temp */
@@ -35,7 +35,6 @@ class TransactionService {
         return axios
             .get<Transaction[]>("/api/v1/transaction")
             .then((response) => {
-                console.log(response)
                 return response.data;
             })
             .catch((reason) => {

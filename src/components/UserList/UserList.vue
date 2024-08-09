@@ -3,16 +3,10 @@ import {onMounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import UserService from "../../services/UserService";
 import {tableRow} from "./static/userTableFields";
-import {User} from "../../store/user/types/userTypes";
+import {User} from "../../store/user/userTypes";
 
 const router = useRouter();
-
-// TODO
-// статика в отдельный файл рядом с компонентом
 const fields = ref(tableRow);
-
-// TODO
-// данные для отдельного стора
 const items = ref<User[]>([]);
 
 const fetchUsers = async () => {

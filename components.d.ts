@@ -30,6 +30,7 @@ declare module 'vue' {
     BNavItemDropdown: typeof import('bootstrap-vue-next')['BNavItemDropdown']
     BRow: typeof import('bootstrap-vue-next')['BRow']
     BTable: typeof import('bootstrap-vue-next')['BTable']
+    CategoriesList: typeof import('./src/components/CategoriesList/CategoriesList.vue')['default']
     CreateFamily: typeof import('./src/components/CreateFamily/CreateFamily.vue')['default']
     Family: typeof import('./src/components/Family/Family.vue')['default']
     FamilyList: typeof import('./src/components/FamilyList/FamilyList.vue')['default']

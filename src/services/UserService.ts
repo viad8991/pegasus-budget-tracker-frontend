@@ -1,4 +1,4 @@
-import { User } from "../store/user/types/userTypes";
+import {User} from "../store/user/userTypes";
 import axios from "../utils/axios";
 
 class UserService {
@@ -24,12 +24,8 @@ class UserService {
     ];
 
     async all() {
-        // TODO
-        // Постоянно писать это надоесть и много кода образуется в service-ах
-        // Нужно вынести в настройки http-client-a в отдельный файл
-        // Напиши, скину пример
         return axios
-            .get<User[]>("/api/v1/user")
+            .get<User[]>("/api/v1/user/list")
             .then((response) => {
                 return response.data;
             })
@@ -39,9 +35,10 @@ class UserService {
             });
     }
 
-    async find(id: string) {
+    async find(id: string | null) {
+        const userId = id ? id : "";
         return axios
-            .get<User>("/api/v1/user/" + id)
+            .get<User>("/api/v1/user/" + userId)
             .then((response) => {
                 if (response.status === 200) {
                     return response.data;
@@ -58,7 +55,7 @@ class UserService {
 
     async update(id: string | null, value: any) {
         // TODO not impl on server
-        console.log(JSON.stringify({ id, value }));
+        console.log(JSON.stringify({id, value}));
     }
 }
 

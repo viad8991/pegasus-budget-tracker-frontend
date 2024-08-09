@@ -6,7 +6,7 @@ async function handleCreateFamily() {
   if (response.id) {
     location.reload()
   } else {
-
+    // TODO show family  is not created
   }
 }
 </script>

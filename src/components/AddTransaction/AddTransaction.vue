@@ -1,12 +1,21 @@
 <script lang="ts" setup>
-import {onMounted, watch} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import TransactionService from "../../services/TransactionService";
 import CategoryService from "../../services/CategoryService";
-import {categoriesType, form, selectedType, transactionTypes} from './static/addTransactionFields';
-import {Category} from "../../store/category/types/categoryTypes";
+import {CategoryTypes} from './static/addTransactionFields';
+import {Category} from "../../store/category/categoryTypes";
+import {TransactionEnum, TransactionTypes, transactionTypesOptions} from "../../consts/TransactionTypes";
+
+const categoriesType = ref<CategoryTypes[]>([])
+const selectedType = ref(TransactionTypes[TransactionEnum.INCOME]);
+const form = reactive({
+  type: TransactionTypes[TransactionEnum.INCOME],
+  amount: 0,
+  category: {} as Category,
+})
 
 onMounted(async () => {
-
+  selectedType.value = TransactionEnum.INCOME;
 });
 
 watch(selectedType, async (newType, _) => {
@@ -35,7 +44,7 @@ const onSubmit = async () => {
     </BFormGroup>
 
     <BFormGroup id="type-input-group" label="Тип:" label-for="type-input">
-      <BFormSelect id="type-input" v-model="selectedType" :options="transactionTypes" required/>
+      <BFormSelect id="type-input" v-model="selectedType" :options="transactionTypesOptions" required/>
     </BFormGroup>
 
     <BFormGroup id="category-input-group" label="Категория:" label-for="category-input">

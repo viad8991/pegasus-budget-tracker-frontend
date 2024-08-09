@@ -1,5 +1,5 @@
 import {useAuthStore} from "../store/auth/authStore";
-import {Category} from "../store/category/types/categoryTypes";
+import {Category} from "../store/category/categoryTypes";
 import axios from "../utils/axios";
 
 class CategoryService {

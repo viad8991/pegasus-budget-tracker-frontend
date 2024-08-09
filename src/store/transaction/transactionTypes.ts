@@ -1,4 +1,4 @@
-import {Category} from "../../category/types/categoryTypes";
+import {Category} from "../category/categoryTypes";
 
 export interface Transaction {
     id: string;

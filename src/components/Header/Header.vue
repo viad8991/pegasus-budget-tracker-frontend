@@ -7,12 +7,9 @@ import {headerTabs} from "./static/headerTabs";
 const router = useRouter();
 const authStore = useAuthStore();
 
-// TODO
-// В сторе есть getters, они отвечают за реактивность и можно это получать оттуда (из getter-a)
+const tabs = ref(headerTabs)
 const isAuth = computed(() => authStore.token !== null);
 const username = computed(() => authStore.user?.username);
-
-const tabs = ref(headerTabs)
 
 const handleLogout = async () => {
   await authStore.logout();

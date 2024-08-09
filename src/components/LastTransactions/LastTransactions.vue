@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import {Transaction} from "../../store/transaction/types/transactionTypes";
+import {Transaction} from "../../store/transaction/transactionTypes";
 import TransactionService from "../../services/TransactionService";
 import {tableRow} from "./static/lastTransactionTableFields";
 import {formatDate} from "../../utils/dateTime";

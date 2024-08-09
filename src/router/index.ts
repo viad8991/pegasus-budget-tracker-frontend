@@ -7,6 +7,7 @@ import AuthView from "../views/AuthView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import UserList from "../components/UserList/UserList.vue";
 import TransactionView from "../views/TransactionView.vue";
+import {useAuthStore} from "../store/auth/authStore";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -19,6 +20,17 @@ const router = createRouter({
         {path: "/auth", name: "Авторизация", component: AuthView},
         {path: "/transaction", name: "Операции", component: TransactionView},
     ],
+});
+
+router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore();
+    console.log(authStore.user)
+    if (authStore.token && authStore.user === null) {
+        console.log(authStore.token && !authStore.user, "|",  authStore.token, "|", authStore?.user, "|", authStore.user === null)
+        await authStore.fetchCurrentUserDate()
+    }
+
+    next();
 });
 
 export default router;

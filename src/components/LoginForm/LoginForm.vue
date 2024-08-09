@@ -12,11 +12,6 @@ const errorMessage = ref("");
 
 async function handleLogin() {
   errorMessage.value = '';
-
-  // TODO
-  // Тут try catch, внутри authStore.auth try catch это bad practise
-  // Позови как-нибудь, я расскажу как правильно организовать структуру обработки ошибок
-  console.log(authStore)
   const user = await authStore.auth(username.value, password.value)
 
   if (user) {
