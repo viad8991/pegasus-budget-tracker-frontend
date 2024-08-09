@@ -9,6 +9,7 @@ const authStore = useAuthStore();
 
 const tabs = ref(headerTabs)
 const isAuth = computed(() => authStore.token !== null);
+const isAdmin = computed(() => authStore.user?.isAdmin || false);
 const username = computed(() => authStore.user?.username);
 
 const handleLogout = async () => {
@@ -34,7 +35,7 @@ const handleSigIn = async () => {
             v-for="tab in tabs"
             :key="tab.label"
             :href="tab.href"
-            :disabled="tab.requiresAdmin"
+            :disabled="tab.requiresAdmin "
         >
           <!-- v-if="(tab.requiresAdmin && isAdmin)" -->
           {{ tab.label }}

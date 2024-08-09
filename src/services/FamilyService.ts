@@ -1,11 +1,5 @@
 import axios from "../utils/axios";
-
-/* TODO temp */
-interface CreateFamilyResponse {
-    id: string | null;
-}
-
-/* TODO end temp */
+import {CreateFamilyResponse, MemberTransaction} from "../store/family/familyTypes";
 
 class FamilyService {
 
@@ -19,6 +13,20 @@ class FamilyService {
                     id: "stub-id"
                 }
                 return stub;
+            })
+    }
+
+    async members() {
+        return axios.get<MemberTransaction[]>("/api/v1/family/members")
+            .then(response => {
+                return response.data
+            })
+    }
+
+    async transaction() {
+        return axios.get<MemberTransaction[]>("/api/v1/family/transactions")
+            .then(response => {
+                return response.data
             })
     }
 

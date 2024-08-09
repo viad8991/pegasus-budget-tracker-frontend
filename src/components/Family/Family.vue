@@ -16,6 +16,14 @@ import FamilyList from "../FamilyList/FamilyList.vue";
         <FamilyList/>
       </BCol>
     </BRow>
+    <BRow>
+      <BCol>
+<!--        <LastFamilyTransaction/>-->
+      </BCol>
+      <BCol>
+<!--        <FamilyList/>-->
+      </BCol>
+    </BRow>
   </BContainer>
 
 </template>
