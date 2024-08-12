@@ -4,7 +4,7 @@ import {CreateFamilyResponse, MemberTransaction} from "../store/family/familyTyp
 class FamilyService {
 
     async create() {
-        return axios.post<CreateFamilyResponse>("/api/v1/family", {})
+        return axios.post<CreateFamilyResponse>("/api/v1/family/", {})
             .then(response => {
                 return response.data
             }).catch(reason => {

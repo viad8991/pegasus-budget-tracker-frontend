@@ -29,7 +29,7 @@ class AuthService {
 
     async login(username: string, password: string) {
         return await axios
-            .post<LoginResponse>("/api/v1/auth", {username, password})
+            .post<LoginResponse>("/api/v1/auth/", {username, password})
             .then((response) => {
                 return response.data;
             })

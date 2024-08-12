@@ -20,7 +20,7 @@ class CategoryService {
 
     async getByType(type: string) {
         return axios
-            .get<Category[]>("/api/v1/category", {params: {"type": type}})
+            .get<Category[]>("/api/v1/category/", {params: {"type": type}})
             .then((response) => {
                 return response.data;
             })
@@ -44,7 +44,7 @@ class CategoryService {
 
     async create(name: string, type: string, description: string | null) {
         return axios
-            .post<Category>("/api/v1/category", {name, type, description})
+            .post<Category>("/api/v1/category/", {name, type, description})
             .then((response) => {
                 return response.data;
             })

@@ -33,7 +33,7 @@ class TransactionService {
 
     async list() {
         return axios
-            .get<Transaction[]>("/api/v1/transaction")
+            .get<Transaction[]>("/api/v1/transaction/")
             .then((response) => {
                 return response.data;
             })
@@ -45,7 +45,7 @@ class TransactionService {
 
     async create(amount: number, category: Category) {
         return axios
-            .post<CreateFamilyResponse>("/api/v1/transaction", {amount, category})
+            .post<CreateFamilyResponse>("/api/v1/transaction/", {amount, category})
             .then((response) => {
                 return response.data;
             })
