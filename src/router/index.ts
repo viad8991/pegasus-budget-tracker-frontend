@@ -26,7 +26,6 @@ router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
     console.log(authStore.user)
     if (authStore.token && authStore.user === null) {
-        console.log(authStore.token && !authStore.user, "|",  authStore.token, "|", authStore?.user, "|", authStore.user === null)
         await authStore.fetchCurrentUserDate()
     }
 
