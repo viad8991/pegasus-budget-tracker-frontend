@@ -13,12 +13,16 @@
     "axios": "^1.7.3",
     "dayjs": "^1.11.12",
     "pinia": "^2.2.0",
+    "rsocket-core": "^0.0.29-alpha.0",
+    "rsocket-websocket-client": "^0.0.29-alpha.0",
     "vue": "^3.4.35",
     "vue-router": "^4.4.2"
   },
   "devDependencies": {
     "@bootstrap-vue-next/nuxt": "^0.24.2",
     "@types/node": "^22.1.0",
+    "@types/rsocket-core": "^0.0.11",
+    "@types/rsocket-websocket-client": "^0.0.7",
     "@vitejs/plugin-vue": "^5.1.2",
     "@vue/cli-plugin-typescript": "^5.0.8",
     "bootstrap": "^5.3.3",

@@ -32,7 +32,7 @@ onMounted(() => {
   }
 });
 
-async function fetchUserData(uid: string) {
+async function fetchUserData(uid: string | null) {
   try {
     const user = await UserService.find(uid);
     if (user) {

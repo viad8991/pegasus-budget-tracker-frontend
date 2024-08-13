@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import {computed, ref} from 'vue';
+import {computed, onMounted, onUnmounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useAuthStore} from "../../store/auth/authStore";
 import {headerTabs} from "./static/headerTabs";
+import rSocketClient from "../../utils/rSocket";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -12,6 +13,9 @@ const isAuth = computed(() => authStore.token !== null);
 const isAdmin = computed(() => authStore.user?.isAdmin || false);
 const username = computed(() => authStore.user?.username);
 
+let subscrption;
+const notifications = ref<string[]>([]);
+
 const handleLogout = async () => {
   await authStore.logout();
   await router.push('/');
@@ -20,6 +24,33 @@ const handleSigIn = async () => {
   await router.push('/auth');
 }
 
+onMounted(async () => {
+  try {
+    const rsocket = await rSocketClient();
+
+    // Подписываемся на поток уведомлений
+    const route = "api.v1.notifications"
+    subscrption = rsocket.requestStream({
+      data: null,
+      metadata: String.fromCharCode(route.length) + route,
+    }).subscribe({
+      onNext: (payload: any) => {
+        notifications.value.push(payload.data.message);
+      },
+      onError: (error: any) => console.error(error),
+      onComplete: () => console.log('Completed'),
+    });
+  } catch (error) {
+    console.error('Ошибка подключения к RSocket:', error);
+  }
+})
+
+onUnmounted(() => {
+  if (subscrption) {
+    subscrption.cancel()
+  }
+})
+
 </script>
 
 <template>
@@ -27,9 +58,6 @@ const handleSigIn = async () => {
     <BNavbarBrand href="/">Pegasus BT</BNavbarBrand>
     <BNavbarToggle target="nav-collapse"/>
     <BCollapse id="nav-collapse" is-nav>
-
-      <!--   TODO можно вынести в отдельный файл со статическими данными и использовать v-for.
-      Схема примерно такая {name, isAdmin, link, isDisabled}   -->
       <BNavbarNav>
         <BNavItem
             v-for="tab in tabs"

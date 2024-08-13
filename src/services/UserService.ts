@@ -25,7 +25,7 @@ class UserService {
 
     async all() {
         return axios
-            .get<User[]>("/api/v1/user/list")
+            .get<User[]>("/api/v1/users")
             .then((response) => {
                 return response.data;
             })
@@ -36,9 +36,9 @@ class UserService {
     }
 
     async find(id: string | null) {
-        const userId = id ? id : "";
+        const userId = id ? id : "me";
         return axios
-            .get<User>("/api/v1/user/" + userId)
+            .get<User>("/api/v1/users/" + userId)
             .then((response) => {
                 if (response.status === 200) {
                     return response.data;

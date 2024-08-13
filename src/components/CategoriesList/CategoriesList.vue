@@ -11,7 +11,7 @@ const modal = useModal("category-modal-id");
 const form = ref<Category>(defaultFormFields);
 const incomingItems = ref<Category[]>();
 const expenseItems = ref<Category[]>();
-const selectedType = ref(TransactionTypes[TransactionEnum.INCOME]);
+const selectedType = ref(TransactionEnum.INCOME);
 
 onMounted(async () => {
   await fetchCategories()
@@ -24,6 +24,7 @@ const fetchCategories = async () => {
 
 const openCreateModal = async () => {
   form.value = defaultFormFields;
+  console.log("openCreateModal", form.value)
   modal.show()
 };
 
@@ -103,7 +104,7 @@ const onSave = async () => {
       </BFormGroup>
 
       <BFormGroup id="type-input-group" label="Тип:" label-for="type-input">
-        <BFormSelect id="type-input" v-model="selectedType" :options="transactionTypesOptions" required/>
+        <BFormSelect id="type-input" v-model="form.type" :options="transactionTypesOptions" required/>
       </BFormGroup>
 
       <BFormGroup label="Описание" label-for="category-description">

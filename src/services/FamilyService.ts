@@ -4,7 +4,7 @@ import {CreateFamilyResponse, MemberTransaction} from "../store/family/familyTyp
 class FamilyService {
 
     async create() {
-        return axios.post<CreateFamilyResponse>("/api/v1/family/", {})
+        return axios.post<CreateFamilyResponse>("/api/v1/families/", {})
             .then(response => {
                 return response.data
             }).catch(reason => {
@@ -17,14 +17,14 @@ class FamilyService {
     }
 
     async members() {
-        return axios.get<MemberTransaction[]>("/api/v1/family/members")
+        return axios.get<MemberTransaction[]>("/api/v1/families/members")
             .then(response => {
                 return response.data
             })
     }
 
     async transaction() {
-        return axios.get<MemberTransaction[]>("/api/v1/family/transactions")
+        return axios.get<MemberTransaction[]>("/api/v1/families/transactions")
             .then(response => {
                 return response.data
             })
