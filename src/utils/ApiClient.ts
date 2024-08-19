@@ -1,5 +1,6 @@
 // import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import axios from "./axios"
+
+import axios from "./axios";
 
 class ApiClient {
   public async get<T>(url: string, config?: {}): Promise<T> {

@@ -2,6 +2,7 @@
 
 import LastFamilyTransaction from "../LastFamilyTransaction/LastFamilyTransaction.vue";
 import FamilyList from "../FamilyList/FamilyList.vue";
+import FamilyChat from "../FamilyChat/FamilyChat.vue";
 
 </script>
 
@@ -10,18 +11,23 @@ import FamilyList from "../FamilyList/FamilyList.vue";
   <BContainer>
     <BRow>
       <BCol>
-        <LastFamilyTransaction/>
+        <FamilyList/>
       </BCol>
       <BCol>
-        <FamilyList/>
+        <FamilyChat/>
       </BCol>
     </BRow>
     <BRow>
       <BCol>
-<!--        <LastFamilyTransaction/>-->
+        <LastFamilyTransaction/>
+      </BCol>
+    </BRow>
+    <BRow>
+      <BCol>
+        <!-- <LastFamilyTransaction/> -->
       </BCol>
       <BCol>
-<!--        <FamilyList/>-->
+        <!-- <FamilyList/> -->
       </BCol>
     </BRow>
   </BContainer>

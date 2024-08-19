@@ -14,7 +14,7 @@ onMounted(async () => {
 
 <template>
   <h3 class="text-center">Последние транзакции</h3>
-
+  <hr>
   <BTable
       :fields="tableFields"
       :items="items"
