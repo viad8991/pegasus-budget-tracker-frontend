@@ -17,7 +17,7 @@ axios.interceptors.request.use(
     },
 
     function (error) {
-        console.log(error);
+        console.log("onRejected", error);
     },
 );
 

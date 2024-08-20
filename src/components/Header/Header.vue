@@ -24,7 +24,6 @@ const handleSigIn = async () => {
 }
 
 onMounted(async () => {
-  console.log("isAuth", isAuth.value)
   if (isAuth.value) {
     const socket = new RSocketWebSocket()
     await socket.connect()
@@ -52,15 +51,13 @@ onMounted(async () => {
       </BNavbarNav>
 
       <BNavbarNav class="ms-auto mb-2 mb-lg-0">
-        <!-- TODO тоже самое. если статика, то в отдельный файл. Иначе получаем с бэка и v-for
-              Пока не уверен, что это реализация будет, save
-        -->
-        <BNavItemDropdown text="Langs" right>
-          <BDropdownItem href="#">EN</BDropdownItem>
-          <BDropdownItem href="#">ES</BDropdownItem>
-          <BDropdownItem href="#">RU</BDropdownItem>
-          <BDropdownItem href="#">FA</BDropdownItem>
-        </BNavItemDropdown>
+        <p style="color: white">Notice: {{ notifications.length }}</p>
+        <BCollapse id="notice" right>
+          <ul v-if="notifications.length > 0">
+            <li v-for="(notice, idx) in notifications" :key="idx">{{ notice }}</li>
+          </ul>
+          <p v-else>No Notice</p>
+        </BCollapse>
 
         <BNavItemDropdown v-if="isAuth" right>
           <template #button-content>
