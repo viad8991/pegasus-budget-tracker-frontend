@@ -26,8 +26,14 @@ const handleSigIn = async () => {
 onMounted(async () => {
   if (isAuth.value) {
     const socket = new RSocketWebSocket()
-    await socket.connect()
-    socket.onNotification(msg => notifications.value.push(msg));
+    await socket.connect(msg => {
+      console.log(notifications.value.length, ") header msg", msg)
+      notifications.value.push(msg)
+    })
+    await socket.onNotification(msg => {
+      console.log(notifications.value.length, ") header msg", msg)
+      notifications.value.push(msg)
+    });
   }
 });
 

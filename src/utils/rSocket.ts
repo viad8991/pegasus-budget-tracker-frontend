@@ -12,110 +12,119 @@ import {
     APPLICATION_OCTET_STREAM,
     encodeAndAddCustomMetadata,
     MESSAGE_RSOCKET_AUTHENTICATION,
-    MESSAGE_RSOCKET_COMPOSITE_METADATA,
+    MESSAGE_RSOCKET_COMPOSITE_METADATA, encodeAndAddWellKnownMetadata, JsonSerializers, BufferEncoders,
 } from 'rsocket-core';
 import RSocketWebSocketClient from "rsocket-websocket-client";
 import {ISubscription,} from "rsocket-types/ReactiveStreamTypes";
-import {Payload} from "rsocket-types";
+import {Payload, ReactiveSocket} from "rsocket-types";
 import {useAuthStore} from "../store/auth/authStore";
+import {Single} from "rsocket-flowable";
+import {MAX_REQUEST_COUNT} from "rsocket-core/RSocketFrame";
 
 export class RSocketWebSocket {
 
-    private client: RSocketClient<any, any> | null = null;
-    private rSocket: any = null;
+    // private client: RSocketClient<any, any> | null = null;
+    private rSocket: ReactiveSocket<any, any> | null = null;
     private route: string = "api.v1.notification"
 
-    async connect(): Promise<void> {
+    async connect(onMessage: (msg: any) => void) {
         const token = useAuthStore().token || ""
         console.log("token", token)
 
-        const client = new RSocketClient<Buffer, Buffer>({
+        const client = new RSocketClient({
             setup: {
                 keepAlive: 10000,
                 lifetime: 20000,
-                dataMimeType: APPLICATION_JSON.string,                          // APPLICATION_OCTET_STREAM.string
-                metadataMimeType: MESSAGE_RSOCKET_COMPOSITE_METADATA.string,    // 'message/x.rsocket.routing.v0',
+                dataMimeType: APPLICATION_JSON.string,
+                metadataMimeType: MESSAGE_RSOCKET_COMPOSITE_METADATA.string, // MESSAGE_RSOCKET_AUTHENTICATION.string,
                 payload: {
-                    data: undefined,
+                    // metadata: encodeSimpleAuthMetadata("user", token)
                     metadata: encodeCompositeMetadata([
                         [MESSAGE_RSOCKET_ROUTING, encodeRoute(this.route)],
-                        [MESSAGE_RSOCKET_AUTHENTICATION, encodeSimpleAuthMetadata("username", token)],
+                        [MESSAGE_RSOCKET_AUTHENTICATION, encodeSimpleAuthMetadata("", token)],
                     ])
                 }
             },
-            // serializers: {
+            // serializers:{
             //     data: JsonSerializer,
             //     metadata: IdentitySerializer,
             // },
             transport: new RSocketWebSocketClient({
                 url: 'ws://localhost:7000',
-                debug: true,
-                wsCreator: url => new WebSocket(url),
-            }, BufferEncoder),
+                wsCreator: (url) => {
+                    return new WebSocket(url);
+                }
+            }, BufferEncoders)
         });
 
-        this.client = client;
+        console.log("create client", client)
 
-        return new Promise((resolve, reject) => {
+        new Promise((resolve, reject) => {
             client.connect().subscribe({
                 onComplete: (socket) => {
-                    console.log("connect", socket)
+                    console.log("on complete connection, get socket", socket)
                     this.rSocket = socket;
-                    resolve()
+                    socket.requestStream({
+                        metadata: encodeCompositeMetadata([
+                            [MESSAGE_RSOCKET_ROUTING, encodeRoute(this.route)],
+                        ])
+                    }).subscribe({
+                        onSubscribe: (sub: ISubscription) => {
+                            console.log("onSubscribe")
+                            sub.request(0x7fffffff);
+                        },
+                        onNext: (msg) => {
+                            console.log("on next", msg);
+                            onMessage(msg)
+                        },
+                        onComplete: () => {
+                            console.log("onComplete")
+                        },
+                        onError: (e: Error) => {
+                            console.log("onError", e);
+                        }
+                    });
+                    // resolve()
                 },
                 onError: (error) => {
-                    console.log("error", error)
+                    console.log("connect on error", error)
                     reject(error);
-                }
+                },
+                onSubscribe(cancel) {
+                    console.log("on subscribe")
+                },
             });
         })
     }
 
-    requestStream(route: string) {
-        const token = useAuthStore().token || ""
-        const routingMetadata = String.fromCharCode(route.length) + route;
-        const authMetadata = String.fromCharCode(token.length) + token;
+    // requestStream(route: string) {
+    //     const token = useAuthStore().token || ""
+    //     const routingMetadata = String.fromCharCode(route.length) + route;
+    //     const authMetadata = String.fromCharCode(token.length) + token;
+    //
+    //     const metadata = `${String.fromCharCode(routingMetadata.length)}${routingMetadata}${String.fromCharCode(
+    //         MESSAGE_RSOCKET_AUTHENTICATION.string.length)}${MESSAGE_RSOCKET_AUTHENTICATION.string}${authMetadata}`;
+    //
+    //     console.log("metadata", metadata)
+    //
+    //     return this.rSocket.requestStream({
+    //         data: null,
+    //         metadata: metadata,
+    //     });
+    // }
 
-        const metadata = `${String.fromCharCode(routingMetadata.length)}${routingMetadata}${String.fromCharCode(
-            MESSAGE_RSOCKET_AUTHENTICATION.string.length)}${MESSAGE_RSOCKET_AUTHENTICATION.string}${authMetadata}`;
-
-        console.log("metadata", metadata)
-
-        return this.rSocket.requestStream({
-            data: null,
-            metadata: metadata,
-        });
-    }
-
-    onNotification(onMessage: (msg: any) => void) {
-        const token = useAuthStore().token || ""
-
-        const routingMetadata = String.fromCharCode(this.route.length) + this.route;
-        const authMetadata = String.fromCharCode(token.length) + token;
-
-        const metadata = encodeAndAddCustomMetadata(
-            Buffer.alloc(0),
-            MESSAGE_RSOCKET_AUTHENTICATION.string,
-            encodeSimpleAuthMetadata("", token)
-        );
-
-        console.log("token", token, "metadata", metadata,)
-        this.rSocket.connectionStatus().subscribe(event => console.log("event", event.error.message))
-
+    async onNotification(onMessage: (msg: any) => void) {
         this.rSocket.requestStream({
-            // data: Buffer.from('request-stream'),
             metadata: encodeCompositeMetadata([
                 [MESSAGE_RSOCKET_ROUTING, encodeRoute(this.route)],
-                [MESSAGE_RSOCKET_AUTHENTICATION, encodeSimpleAuthMetadata('user', token)],
-            ]),
+            ])
         }).subscribe({
             onSubscribe: (sub: ISubscription) => {
-                console.log("sub", sub)
+                console.log("onSubscribe")
                 sub.request(0x7fffffff);
             },
-            onNext: (msg: Payload<string, string>) => {
-                console.log("next", msg)
-                onMessage(msg);
+            onNext: (msg) => {
+                console.log("on next", msg);
             },
             onComplete: () => {
                 console.log("onComplete")
