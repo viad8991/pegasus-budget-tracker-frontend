@@ -1,8 +1,11 @@
 import {
     Encodable,
     encodeRoute,
+    Utf8Encoders,
     RSocketClient,
     BufferEncoder,
+    BufferEncoders,
+    JsonSerializers,
     JsonSerializer,
     APPLICATION_JSON,
     IdentitySerializer,
@@ -11,8 +14,9 @@ import {
     encodeSimpleAuthMetadata,
     APPLICATION_OCTET_STREAM,
     encodeAndAddCustomMetadata,
+    encodeAndAddWellKnownMetadata,
     MESSAGE_RSOCKET_AUTHENTICATION,
-    MESSAGE_RSOCKET_COMPOSITE_METADATA, encodeAndAddWellKnownMetadata, JsonSerializers, BufferEncoders,
+    MESSAGE_RSOCKET_COMPOSITE_METADATA,
 } from 'rsocket-core';
 import RSocketWebSocketClient from "rsocket-websocket-client";
 import {ISubscription,} from "rsocket-types/ReactiveStreamTypes";
@@ -20,14 +24,14 @@ import {Payload, ReactiveSocket} from "rsocket-types";
 import {useAuthStore} from "../store/auth/authStore";
 import {Single} from "rsocket-flowable";
 import {MAX_REQUEST_COUNT} from "rsocket-core/RSocketFrame";
+import {Notification} from "../store/notification/notificatioinTypes";
 
 export class RSocketWebSocket {
 
-    // private client: RSocketClient<any, any> | null = null;
     private rSocket: ReactiveSocket<any, any> | null = null;
     private route: string = "api.v1.notification"
 
-    async connect(onMessage: (msg: any) => void) {
+    async connect(onMessage: (msg: Notification) => void) {
         const token = useAuthStore().token || ""
         console.log("token", token)
 
@@ -45,10 +49,10 @@ export class RSocketWebSocket {
                     ])
                 }
             },
-            // serializers:{
-            //     data: JsonSerializer,
-            //     metadata: IdentitySerializer,
-            // },
+            serializers: {
+                data: JsonSerializer,
+                metadata: IdentitySerializer,
+            },
             transport: new RSocketWebSocketClient({
                 url: 'ws://localhost:7000',
                 wsCreator: (url) => {
@@ -74,8 +78,8 @@ export class RSocketWebSocket {
                             sub.request(0x7fffffff);
                         },
                         onNext: (msg) => {
-                            console.log("on next", msg);
-                            onMessage(msg)
+                            const notify: Notification = {id: msg.data.id, body: msg.data.body}
+                            onMessage(notify)
                         },
                         onComplete: () => {
                             console.log("onComplete")
@@ -96,22 +100,6 @@ export class RSocketWebSocket {
             });
         })
     }
-
-    // requestStream(route: string) {
-    //     const token = useAuthStore().token || ""
-    //     const routingMetadata = String.fromCharCode(route.length) + route;
-    //     const authMetadata = String.fromCharCode(token.length) + token;
-    //
-    //     const metadata = `${String.fromCharCode(routingMetadata.length)}${routingMetadata}${String.fromCharCode(
-    //         MESSAGE_RSOCKET_AUTHENTICATION.string.length)}${MESSAGE_RSOCKET_AUTHENTICATION.string}${authMetadata}`;
-    //
-    //     console.log("metadata", metadata)
-    //
-    //     return this.rSocket.requestStream({
-    //         data: null,
-    //         metadata: metadata,
-    //     });
-    // }
 
     async onNotification(onMessage: (msg: any) => void) {
         this.rSocket.requestStream({

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import {computed, onMounted, onUnmounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
-import {useAuthStore} from "../../store/auth/authStore";
+import {computed, onMounted, ref} from 'vue';
 import {headerTabs} from "./static/headerTabs";
-import rSocketClient, {RSocketWebSocket} from "../../utils/rSocket";
+import {RSocketWebSocket} from "../../utils/rSocket";
+import {useAuthStore} from "../../store/auth/authStore";
+import {Notification} from "../../store/notification/notificatioinTypes";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -13,7 +14,7 @@ const isAuth = computed(() => authStore.token !== null);
 const isAdmin = computed(() => authStore.user?.isAdmin || false);
 const username = computed(() => authStore.user?.username);
 
-const notifications = ref<string[]>([]);
+const notifications = ref<Notification[]>([]);
 
 const handleLogout = async () => {
   await authStore.logout();
@@ -28,12 +29,12 @@ onMounted(async () => {
     const socket = new RSocketWebSocket()
     await socket.connect(msg => {
       console.log(notifications.value.length, ") header msg", msg)
-      notifications.value.push(msg)
+      notifications.value.unshift(msg)
     })
-    await socket.onNotification(msg => {
-      console.log(notifications.value.length, ") header msg", msg)
-      notifications.value.push(msg)
-    });
+    // await socket.onNotification(msg => {
+    //   console.log(notifications.value.length, ") header msg", msg)
+    //   notifications.value.push(msg)
+    // });
   }
 });
 
@@ -57,13 +58,11 @@ onMounted(async () => {
       </BNavbarNav>
 
       <BNavbarNav class="ms-auto mb-2 mb-lg-0">
-        <p style="color: white">Notice: {{ notifications.length }}</p>
-        <BCollapse id="notice" right>
-          <ul v-if="notifications.length > 0">
-            <li v-for="(notice, idx) in notifications" :key="idx">{{ notice }}</li>
-          </ul>
-          <p v-else>No Notice</p>
-        </BCollapse>
+        <BDropdown v-model="notifications" text="Notice" variant="dark">
+          <BDropdownItem v-for="(notice, idx) in notifications">
+            {{idx}}) {{ notice.body }}
+          </BDropdownItem>
+        </BDropdown>
 
         <BNavItemDropdown v-if="isAuth" right>
           <template #button-content>
