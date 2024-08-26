@@ -5,6 +5,8 @@ import {headerTabs} from "./static/headerTabs";
 import {RSocketWebSocket} from "../../utils/rSocket";
 import {useAuthStore} from "../../store/auth/authStore";
 import {Notification} from "../../store/notification/notificatioinTypes";
+import {NotificationService} from "../../services/Notificationservice";
+import {WebSocketRoutes} from "../../consts/WebSocketRoutes";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -26,15 +28,11 @@ const handleSigIn = async () => {
 
 onMounted(async () => {
   if (isAuth.value) {
-    const socket = new RSocketWebSocket()
+    const socket = new NotificationService(WebSocketRoutes.NOTIFICATION_V1)
     await socket.connect(msg => {
       console.log(notifications.value.length, ") header msg", msg)
       notifications.value.unshift(msg)
     })
-    // await socket.onNotification(msg => {
-    //   console.log(notifications.value.length, ") header msg", msg)
-    //   notifications.value.push(msg)
-    // });
   }
 });
 
